@@ -6,64 +6,66 @@ import { Link } from 'react-router-dom';
 import { FaUserCheck } from 'react-icons/fa6';
 import { PiPackage } from 'react-icons/pi';
 import axios from 'axios';
-
-interface ApiResponse {
-  statusCode: number;
-  success: boolean;
-  message: string;
-  data: UserProfile;
-}
-
-interface Wallet {
-  id: string;
-  depositWallet: number;
-  icotWallet: number;
-  nativeWallet: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-interface UserProfile {
-  id: string;
-  name: string;
-  email: string;
-  phone: string;
-  password: string;
-  referralCode: string;
-  myReferralCode: string;
-  role: string;
-  profileImage: string | null;
-  referralCount: number;
-  nativeWallet: number;
-  createdAt: string;
-  updatedAt: string;
-  wallet: Wallet;
-}
+import { getKgcAdminToken } from '../../hooks/handelAdminToken';
 
 const BizTokenDashboard: React.FC = () => {
-  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [datas, setDatas] = useState<any>([]);
+  const [services, setServices] = useState<any>([]);
+  const [loding, setLoading] = useState<boolean>(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const token = localStorage.getItem('tizaraToken');
+  const token = getKgcAdminToken();
 
-        const response = await axios.get<ApiResponse>(' ', {
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        'https://kgc-app.vercel.app/api/v1/services-catagory',
+        {
           headers: {
             Authorization: `${token}`,
             'Content-Type': 'application/json',
           },
-        });
-        console.log(response);
+        },
+      );
+      setLoading(false);
 
-        if (response?.data?.success) {
-          setProfile(response.data.data);
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error);
+      if (response?.data?.success) {
+        setDatas(response?.data?.data);
       }
-    };
-    // fetchData();
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchServiceData = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        'https://kgc-app.vercel.app/api/v1/services',
+        {
+          headers: {
+            Authorization: `${token}`,
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+
+      setLoading(false);
+
+      if (response?.data?.success) {
+        setServices(response?.data?.data);
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchServiceData();
   }, []);
 
   return (
@@ -72,11 +74,11 @@ const BizTokenDashboard: React.FC = () => {
         <Link to={'/'}>
           <CardDataStats
             title="All Catagory"
-            total={`${'00'}  `}
+            total={`${datas ? datas?.data?.length : '0'}`}
             // rate="0.95%"
             // levelDown
           >
-            <UserIcon />
+            <PiPackage className="text-2xl dark:text-white text-primary" />
           </CardDataStats>
         </Link>
 
@@ -94,12 +96,12 @@ const BizTokenDashboard: React.FC = () => {
         <Link to={'/'}>
           <CardDataStats
             title="All Users"
-            total={`00`}
+            total={`${services ? services?.data?.length : '00'}`}
 
             // rate="0.95%"
             // levelDown
           >
-            <PiPackage className="text-2xl dark:text-white text-primary" />
+            <UserIcon />
           </CardDataStats>
         </Link>
       </div>

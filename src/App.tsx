@@ -47,7 +47,7 @@ function App() {
             path="/dashboard"
             element={
               <>
-                <PageTitle title="Tizara Dashboard" />
+                <PageTitle title="KGC ADMIN" />
                 <BizTokenDashboard />
               </>
             }

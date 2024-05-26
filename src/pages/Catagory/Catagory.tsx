@@ -7,6 +7,7 @@ import { getKgcAdminToken } from '../../hooks/handelAdminToken';
 import { UpdateCatagoryModal } from './UpdateCatagoryModal';
 import { ICatagory } from '../../types/packages';
 import { AddCatagoryModal } from './AddCatagoryModal';
+import { PuffLoader } from 'react-spinners';
 
 const Catagory = () => {
   const [datas, setDatas] = useState<any>([]);
@@ -32,9 +33,10 @@ const Catagory = () => {
   const token = getKgcAdminToken();
 
   const fetchData = async () => {
+    setLoading(true);
     try {
       const response = await axios.get(
-        'http://localhost:5000/api/v1/services-catagory',
+        'https://kgc-app.vercel.app/api/v1/services-catagory',
         {
           headers: {
             Authorization: `${token}`,
@@ -212,6 +214,9 @@ const Catagory = () => {
               ))}
             </tbody>
           </table>
+          {loading && (
+            <PuffLoader className="mx-auto" color="#00ddff" size={40} />
+          )}
         </div>
       </div>
       <div>

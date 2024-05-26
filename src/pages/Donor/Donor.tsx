@@ -5,6 +5,7 @@ import axios from 'axios';
 import { formatToLocalDate } from '../../hooks/formatDate';
 import { getKgcAdminToken } from '../../hooks/handelAdminToken';
 import { ICatagory } from '../../types/packages';
+import { PuffLoader } from 'react-spinners';
 
 const Donor = () => {
   const [datas, setDatas] = useState<any>([]);
@@ -26,10 +27,13 @@ const Donor = () => {
   const token = getKgcAdminToken();
 
   const fetchData = async () => {
+    setLoading(true);
     try {
       const response = await axios.get(
-        'http://localhost:5000/api/v1/users/all-donnor?isDonor=true',
+        'https://kgc-app.vercel.app/api/v1/users/all-donnor?isDonor=true',
       );
+
+      setLoading(false);
 
       if (response?.data?.success) {
         setDatas(response?.data?.data);
@@ -42,7 +46,6 @@ const Donor = () => {
   useEffect(() => {
     fetchData();
   }, []);
-  console.log(datas.data);
 
   return (
     <DefaultLayout>
@@ -207,6 +210,9 @@ const Donor = () => {
             </tbody>
           </table>
         </div>
+        {loading && datas.length == 0 && (
+          <PuffLoader className="mx-auto" color="#00ddff" size={40} />
+        )}
       </div>
       {/* <div>
         {isModalOpen && (

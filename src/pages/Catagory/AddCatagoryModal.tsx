@@ -26,7 +26,7 @@ export const AddCatagoryModal = ({ fetchData, closeModal }: IUpdatePackage) => {
       const token = getKgcAdminToken();
 
       const response = await fetch(
-        `http://localhost:5000/api/v1/services-catagory`,
+        `https://kgc-app.vercel.app/api/v1/services-catagory`,
         {
           method: 'POST',
           headers: {
@@ -100,6 +100,14 @@ export const AddCatagoryModal = ({ fetchData, closeModal }: IUpdatePackage) => {
                 <input
                   className="w-full rounded border border-stroke bg-gray py-3 pl-3 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                   {...register('description', { required: true })}
+                />
+              </div>
+
+              <div>
+                <p>Image url</p>
+                <input
+                  className="w-full rounded border border-stroke bg-gray py-3 pl-3 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                  {...register('img', { required: true })}
                 />
               </div>
 

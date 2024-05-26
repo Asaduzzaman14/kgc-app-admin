@@ -6,6 +6,7 @@ import { formatToLocalDate } from '../../hooks/formatDate';
 import { getKgcAdminToken } from '../../hooks/handelAdminToken';
 import { ICatagory } from '../../types/packages';
 import { UpdateServiceModal } from './UpdateServiceModal';
+import { PuffLoader } from 'react-spinners';
 
 type IService = {
   id: number;
@@ -24,7 +25,6 @@ const Services = () => {
   const [loading, setLoading] = useState<any>(false);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [addCatagoryModal, setAddCatagoryModal] = useState(false);
   const [updateItem, setUpdateItem] = useState<any>();
 
   const openModal = (data: any) => {
@@ -39,9 +39,10 @@ const Services = () => {
   const token = getKgcAdminToken();
 
   const fetchData = async () => {
+    setLoading(true);
     try {
       const response = await axios.get(
-        'http://localhost:5000/api/v1/services',
+        'https://kgc-app.vercel.app/api/v1/services',
         {
           headers: {
             Authorization: `${token}`,
@@ -50,7 +51,7 @@ const Services = () => {
         },
       );
 
-      console.log(response?.data?.data?.data);
+      setLoading(false);
 
       if (response?.data?.success) {
         setDatas(response?.data?.data);
@@ -68,15 +69,6 @@ const Services = () => {
     <DefaultLayout>
       <Breadcrumb pageName="Services" />
 
-      {/* <div>
-        <button
-          type="button"
-          onClick={() => setAddCatagoryModal(!addCatagoryModal)}
-          className="btn flex justify-center rounded bg-strokedark py-2 px-6 font-medium text-gray hover:shadow-1"
-        >
-          Add Catagory
-        </button>
-      </div> */}
       <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
         <div className="max-w-full overflow-x-auto">
           <table className="w-full table-auto">
@@ -264,6 +256,9 @@ const Services = () => {
             </tbody>
           </table>
         </div>
+        {loading && (
+          <PuffLoader className="mx-auto" color="#00ddff" size={40} />
+        )}
       </div>
       {/* <div>
         {isModalOpen && (

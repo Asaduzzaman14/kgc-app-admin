@@ -1,5 +1,5 @@
 {
-  "name": "tizara-server",
+  "name": "kgc",
   "private": true,
   "version": "1.3.0",
   "type": "module",
@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "author": {
-    "name": "Edulife"
+    "name": "Asaduzzaman"
   },
   "dependencies": {
     "apexcharts": "^3.41.0",

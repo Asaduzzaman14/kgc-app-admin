@@ -27,7 +27,7 @@ const Allusers = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        'http://localhost:5000/api/v1/users/all-donnor',
+        'https://kgc-app.vercel.app/api/v1/users/all-donnor',
       );
 
       if (response?.data?.success) {

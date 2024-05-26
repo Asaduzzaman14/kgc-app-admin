@@ -29,7 +29,7 @@ const AddServices = () => {
   const getCtagory = async () => {
     try {
       const response = await axios.get(
-        'http://localhost:5000/api/v1/services-catagory',
+        'https://kgc-app.vercel.app/api/v1/services-catagory',
         {
           headers: {
             Authorization: `${token}`,
@@ -51,14 +51,17 @@ const AddServices = () => {
     console.log(formData);
 
     try {
-      const response = await fetch('http://localhost:5000/api/v1/services', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `${token}`,
+      const response = await fetch(
+        'https://kgc-app.vercel.app/api/v1/services',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `${token}`,
+          },
+          body: JSON.stringify(formData),
         },
-        body: JSON.stringify(formData),
-      });
+      );
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
