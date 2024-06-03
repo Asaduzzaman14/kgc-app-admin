@@ -7,6 +7,8 @@ import { getKgcAdminToken } from '../../hooks/handelAdminToken';
 import { ICatagory } from '../../types/packages';
 import { UpdateServiceModal } from './UpdateServiceModal';
 import { PuffLoader } from 'react-spinners';
+import Swal from 'sweetalert2';
+import { ViewModal } from './ViewModal';
 
 type IService = {
   id: number;
@@ -25,7 +27,9 @@ const Services = () => {
   const [loading, setLoading] = useState<any>(false);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isViewOpen, setIsViewOpen] = useState(false);
   const [updateItem, setUpdateItem] = useState<any>();
+  const [viewItem, setViewItem] = useState<any>();
 
   const openModal = (data: any) => {
     setUpdateItem(data);
@@ -34,6 +38,14 @@ const Services = () => {
 
   const closeModal = () => {
     setIsModalOpen(false);
+  };
+
+  const closeViewModal = () => {
+    setIsViewOpen(false);
+  };
+  const openViewModal = (data: any) => {
+    setIsViewOpen(true);
+    setViewItem(data);
   };
 
   const token = getKgcAdminToken();
@@ -65,6 +77,54 @@ const Services = () => {
     fetchData();
   }, []);
 
+  const deleteServices = async (id: string) => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const response = await axios.delete(
+            `https://kgc-app.vercel.app/api/v1/services/${id}`,
+            {
+              headers: {
+                Authorization: token,
+                'Content-Type': 'application/json',
+              },
+            },
+          );
+          fetchData();
+          if (response.data.success) {
+            Swal.fire({
+              title: 'Deleted!',
+              text: 'Your service has been deleted.',
+              icon: 'success',
+            });
+          } else {
+            Swal.fire({
+              title: 'Error!',
+              text:
+                response.data.message || 'An error occurred while deleting.',
+              icon: 'error',
+            });
+          }
+        } catch (error) {
+          console.error('Error deleting category:', error);
+          Swal.fire({
+            title: 'Error!',
+            text: 'An error occurred while deleting.',
+            icon: 'error',
+          });
+        }
+      }
+    });
+  };
+
   return (
     <DefaultLayout>
       <Breadcrumb pageName="Services" />
@@ -77,7 +137,6 @@ const Services = () => {
                 <th className="min-w-[90px] py-4 px-4 font-medium text-black dark:text-white">
                   SL NO
                 </th>
-
                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
                   Service Name
                 </th>
@@ -151,7 +210,7 @@ const Services = () => {
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p className="text-black dark:text-white">
-                      {packageItem?.servicesCatagory.name}
+                      {packageItem?.servicesCatagory?.name}
                     </p>
                   </td>
 
@@ -177,7 +236,7 @@ const Services = () => {
                     <div className="flex items-center space-x-3.5">
                       {/* details btn */}
                       <button
-                        // onClick={() => openViewModal(packageItem)}
+                        onClick={() => openViewModal(packageItem)}
                         className="hover:text-primary"
                       >
                         <svg
@@ -199,7 +258,10 @@ const Services = () => {
                         </svg>
                       </button>
                       {/* delete  */}
-                      {/* <button onClick={() => deletePackage(packageItem?.id)} className="hover:text-primary">
+                      <button
+                        onClick={() => deleteServices(packageItem?._id)}
+                        className="hover:text-primary"
+                      >
                         <svg
                           className="fill-current"
                           width="18"
@@ -225,10 +287,10 @@ const Services = () => {
                             fill=""
                           />
                         </svg>
-                      </button> */}
+                      </button>
                       {/* edit btn */}
                       <button
-                        onClick={() => openModal(packageItem)}
+                        // onClick={() => openModal(packageItem)}
                         className="hover:text-primary"
                       >
                         <svg
@@ -260,15 +322,11 @@ const Services = () => {
           <PuffLoader className="mx-auto" color="#00ddff" size={40} />
         )}
       </div>
-      {/* <div>
-        {isModalOpen && (
-          <UpdateCatagoryModal
-            closeModal={closeModal}
-            updateItem={updateItem}
-            fetchData={fetchData}
-          />
+      <div>
+        {isViewOpen && (
+          <ViewModal closeViewModal={closeViewModal} viewItem={viewItem} />
         )}
-      </div> */}
+      </div>
 
       <div>
         {isModalOpen && (

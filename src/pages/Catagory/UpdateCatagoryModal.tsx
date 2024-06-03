@@ -21,11 +21,6 @@ export const UpdateCatagoryModal = ({
   const [formState, setFormState] = useState({ ...updateItem });
   const { register, handleSubmit, control } = useForm<ICatagory>();
 
-  const options = [
-    { value: '0', label: 'Inactive' },
-    { value: '1', label: 'Active' },
-  ];
-
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormState({ ...formState, [name]: value });
@@ -133,15 +128,6 @@ export const UpdateCatagoryModal = ({
                   value={formState.img}
                 />
               </div>
-
-              {/* <SelectOptions
-                control={control}
-                options={options}
-                label="Status"
-                name="status"
-                defaultValue={formState.status}
-                placeholder={'Select...'}
-              /> */}
 
               <div className="flex justify-center gap-4">
                 <div>

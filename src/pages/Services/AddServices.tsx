@@ -21,12 +21,16 @@ const AddServices = () => {
   const [settings, setSettings] = useState<Inputs[] | null>([]);
   const { register, handleSubmit } = useForm<Inputs>();
   const token = getKgcAdminToken();
-  console.log(token);
 
   const [catagory, setCatagory] = useState<any>();
+  const [location, setLocation] = useState<any>();
+  console.log(location);
+
   const [selectedMethod, setSelectedMethod] = useState<any>();
 
-  const getCtagory = async () => {
+  const getServices = async () => {
+    const token = getKgcAdminToken();
+
     try {
       const response = await axios.get(
         'https://kgc-app.vercel.app/api/v1/services-catagory',
@@ -44,12 +48,12 @@ const AddServices = () => {
   };
 
   useEffect(() => {
-    getCtagory();
+    getServices();
   }, []);
 
   const onSubmit = async (formData: any) => {
     console.log(formData);
-
+    const token = getKgcAdminToken();
     try {
       const response = await fetch(
         'https://kgc-app.vercel.app/api/v1/services',
@@ -62,11 +66,12 @@ const AddServices = () => {
           body: JSON.stringify(formData),
         },
       );
+      console.log(response);
+
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
       const responseData = await response.json();
-      console.log(responseData);
 
       if (responseData.success) {
         Swal.fire({
@@ -84,12 +89,51 @@ const AddServices = () => {
     }
   };
 
+  const locations = [
+    {
+      id: 1,
+      locatin: 'Khagrachari',
+    },
+    {
+      id: 2,
+      locatin: 'Dighinala',
+    },
+    {
+      id: 3,
+      locatin: 'Mohalchari',
+    },
+    {
+      id: 4,
+      locatin: 'Panchari ',
+    },
+    {
+      id: 5,
+      locatin: 'Matiranga',
+    },
+    {
+      id: 6,
+      locatin: 'Manikchari',
+    },
+    {
+      id: 7,
+      locatin: 'Lakshmichari',
+    },
+    {
+      id: 8,
+      locatin: 'Ramgarh',
+    },
+    {
+      id: 9,
+      locatin: 'Guimara',
+    },
+  ];
+
   return (
     <DefaultLayout>
       <Breadcrumb pageName="Add Services" />
       <div className="">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div>
+          <div className="w-full xl:w-1/2">
             <label
               className="mb-2 block text-sm font-medium text-black dark:text-white"
               htmlFor="type"
@@ -101,11 +145,15 @@ const AddServices = () => {
               id="paymentMethod"
               {...register('servicesCatagory', { required: true })}
               onClick={(e: any) => setSelectedMethod(e?.target?.value)}
-              className="py-3 w-full rounded-md border-2 border-boxdark-2 dark:border-boxdark-2dark dark:bg-meta-4 dark:focus:border-primary"
+              className="py-3 ps-3 w-full text-black bg-transparent rounded-md border-2 border-boxdark-2 dark:border-boxdark-2dark dark:bg-meta-4 dark:focus:border-primary"
             >
               {/* Map through paymentMethods and render options */}
               {catagory?.data?.map((method: any) => (
-                <option className=" " key={method._id} value={method._id}>
+                <option
+                  className="text-black "
+                  key={method._id}
+                  value={method._id}
+                >
                   {method.name}
                 </option>
               ))}
@@ -172,7 +220,7 @@ const AddServices = () => {
               className="w-full rounded border-[1.5px] border-boxdark-2 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
             />
           </div>
-          <div className="w-full xl:w-1/2">
+          {/* <div className="w-full xl:w-1/2">
             <label className="mt-2.5 mb-0.5 block text-black dark:text-white">
               Location
             </label>
@@ -182,6 +230,28 @@ const AddServices = () => {
               placeholder="location"
               className="w-full rounded border-[1.5px] border-boxdark-2 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
             />
+          </div> */}
+
+          <div className="w-full xl:w-1/2">
+            <label
+              className="mt-2 block text-sm font-medium text-black dark:text-white"
+              htmlFor="type"
+            >
+              Select Location
+            </label>
+
+            <select
+              id="paymentMethod"
+              {...register('location', { required: true })}
+              onClick={(e: any) => setLocation(e?.target?.value)}
+              className="py-3 ps-3 w-full bg-transparent rounded-md border-2 border-boxdark-2 dark:border-boxdark-2dark dark:bg-meta-4 dark:focus:border-primary"
+            >
+              {locations?.map((locatin: any) => (
+                <option className=" " key={locatin.id} value={locatin.locatin}>
+                  {locatin.locatin}
+                </option>
+              ))}
+            </select>
           </div>
 
           <Button cs="px-10 my-5 bg-primary" btnName="Submit"></Button>

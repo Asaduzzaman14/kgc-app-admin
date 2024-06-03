@@ -1,7 +1,6 @@
 import { ChangeEvent, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
-import SelectOptions from '../../Ui/SelectOptions';
 import { PuffLoader } from 'react-spinners';
 
 interface IUpdatePackage {
@@ -11,11 +10,13 @@ interface IUpdatePackage {
 }
 type IService = {
   id: number;
-  name: string;
-  description: string;
+  serviceProviderName: string;
   phone: string;
   email: string;
+  description: string;
   location: string;
+
+  name: string;
 
   createdAt?: string;
   updatedAt?: string;
@@ -39,11 +40,12 @@ export const UpdateServiceModal = ({
 
     const newData = {
       ...data,
-      id: updateItem?.id,
     };
+    console.log(updateItem);
+    return;
 
     try {
-      const token = localStorage.getItem('biztoken');
+      const token = localStorage.getItem(' ');
       const response = await fetch(' ', {
         method: 'POST',
         headers: {
@@ -86,35 +88,34 @@ export const UpdateServiceModal = ({
         }}
       >
         <div className="modal rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark overflow-auto">
-          <div className="min-w-full w-[370px] lg:w-[600px] border-b border-stroke py-4 px-1 dark:border-strokedark">
-            <div className="w-full flex justify-between px-3 place-items-center py-3">
+          <div className="min-w-full w-[370px] lg:w-[600px] border-b border-stroke  dark:border-strokedark">
+            <div className="w-full bg-slate-200 flex justify-between  place-items-center p-2 py-3">
               <h2 className="text-xl font-bold text-black dark:text-white">
                 Update Service
               </h2>
 
               <strong
-                className="text-4xl align-center cursor-pointer  hover:text-black dark:hover:text-white"
+                className="text-xl px-2 align-center cursor-pointer  hover:text-black dark:hover:text-white"
                 onClick={closeModal}
               >
-                &times;
+                X
               </strong>
             </div>
-            <hr />
             <form
               onSubmit={handleSubmit(onSubmit)}
               className="flex  flex-col w-full gap-5.5 p-6.5"
             >
               <div>
-                <p>Package name</p>
+                <p>Service name</p>
                 <input
                   className="w-full rounded border border-stroke bg-gray py-3 pl-3 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                   {...register('name', { required: true })}
-                  value={formState.package_name}
+                  defaultChecked={formState.name}
                   onChange={handleChange}
                 />
               </div>
               <div>
-                <p>Package price</p>
+                <p>Service </p>
                 <input
                   className="w-full rounded border border-stroke bg-gray py-3 pl-3 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                   {...register('description', { required: true })}

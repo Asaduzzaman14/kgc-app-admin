@@ -10,6 +10,7 @@ import { getKgcAdminToken } from '../../hooks/handelAdminToken';
 
 const BizTokenDashboard: React.FC = () => {
   const [datas, setDatas] = useState<any>([]);
+  const [users, setUsers] = useState<any>([]);
   const [services, setServices] = useState<any>([]);
   const [loding, setLoading] = useState<boolean>(false);
 
@@ -68,15 +69,34 @@ const BizTokenDashboard: React.FC = () => {
     fetchServiceData();
   }, []);
 
+  const getusers = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        'https://kgc-app.vercel.app/api/v1/users/all-donnor?isDonor=true',
+      );
+
+      setLoading(false);
+
+      if (response?.data?.success) {
+        setUsers(response?.data?.data);
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  useEffect(() => {
+    getusers();
+  }, []);
+
   return (
     <DefaultLayout>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
         <Link to={'/'}>
           <CardDataStats
             title="All Catagory"
-            total={`${datas ? datas?.data?.length : '0'}`}
-            // rate="0.95%"
-            // levelDown
+            total={`${datas?.data?.length ? datas?.data?.length : '0'}`}
           >
             <PiPackage className="text-2xl dark:text-white text-primary" />
           </CardDataStats>
@@ -85,9 +105,7 @@ const BizTokenDashboard: React.FC = () => {
         <Link to={'/'}>
           <CardDataStats
             title="All  Services"
-            total={`${'00'}  `}
-            // rate="0.95%"
-            // levelDown
+            total={`${services ? services?.data?.length : '00'}  `}
           >
             <UserIcon />
           </CardDataStats>
@@ -96,10 +114,7 @@ const BizTokenDashboard: React.FC = () => {
         <Link to={'/'}>
           <CardDataStats
             title="All Users"
-            total={`${services ? services?.data?.length : '00'}`}
-
-            // rate="0.95%"
-            // levelDown
+            total={`${users?.data?.length ? users?.data?.length : '00'}`}
           >
             <UserIcon />
           </CardDataStats>

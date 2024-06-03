@@ -8,10 +8,13 @@ import { UpdateCatagoryModal } from './UpdateCatagoryModal';
 import { ICatagory } from '../../types/packages';
 import { AddCatagoryModal } from './AddCatagoryModal';
 import { PuffLoader } from 'react-spinners';
+import { Moment } from 'moment';
+import Swal from 'sweetalert2';
 
 const Catagory = () => {
   const [datas, setDatas] = useState<any>([]);
   const [loading, setLoading] = useState<any>(false);
+  const [deleteLoading, setDeleteLoading] = useState<any>(false);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [addCatagoryModal, setAddCatagoryModal] = useState(false);
@@ -44,6 +47,7 @@ const Catagory = () => {
           },
         },
       );
+      setLoading(false);
 
       if (response?.data?.success) {
         setDatas(response?.data?.data);
@@ -56,6 +60,70 @@ const Catagory = () => {
   useEffect(() => {
     fetchData();
   }, []);
+  const deleteCategory = async (id: string) => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          setDeleteLoading(true);
+          const response = await axios.delete(
+            `https://kgc-app.vercel.app/api/v1/services-catagory/${id}`,
+            {
+              headers: {
+                Authorization: token,
+                'Content-Type': 'application/json',
+              },
+            },
+          );
+          fetchData();
+          setDeleteLoading(false);
+          if (response.data.success) {
+            setDatas(response.data.data);
+            Swal.fire({
+              title: 'Deleted!',
+              text: 'Your file has been deleted.',
+              icon: 'success',
+            });
+          } else {
+            Swal.fire({
+              title: 'Error!',
+              text:
+                response.data.message || 'An error occurred while deleting.',
+              icon: 'error',
+            });
+          }
+        } catch (error) {
+          console.error('Error deleting category:', error);
+          Swal.fire({
+            title: 'Error!',
+            text: 'An error occurred while deleting.',
+            icon: 'error',
+          });
+        }
+      }
+    });
+  };
+
+  // const formatDate = (createdAt: string) => {
+  //   const currentDate = Moment();
+  //   const creationDate = Moment(createdAt);
+  //   const diffInDays = currentDate.diff(creationDate, 'days');
+
+  //   if (diffInDays === 0) {
+  //     return 'Today';
+  //   } else if (diffInDays === 1) {
+  //     return 'Yesterday';
+  //   } else {
+  //     return `${diffInDays} days ago`;
+  //   }
+  // };
 
   return (
     <DefaultLayout>
@@ -65,7 +133,7 @@ const Catagory = () => {
         <button
           type="button"
           onClick={() => setAddCatagoryModal(true)}
-          className="btn flex justify-center rounded bg-strokedark py-2 px-6 font-medium text-gray hover:shadow-1"
+          className="btn mb-3 flex justify-center rounded bg-strokedark py-2 px-6 font-medium text-gray hover:shadow-1"
         >
           Add Catagory
         </button>
@@ -141,8 +209,8 @@ const Catagory = () => {
                       >
                         <svg
                           className="fill-current"
-                          width="18"
-                          height="18"
+                          width="22"
+                          height="22"
                           viewBox="0 0 18 18"
                           fill="none"
                           xmlns="http://www.w3.org/2000/svg"
@@ -158,11 +226,14 @@ const Catagory = () => {
                         </svg>
                       </button>
                       {/* delete  */}
-                      {/* <button onClick={() => deletePackage(packageItem?.id)} className="hover:text-primary">
+                      <button
+                        onClick={() => deleteCategory(packageItem?._id)}
+                        className="hover:text-primary"
+                      >
                         <svg
                           className="fill-current"
-                          width="18"
-                          height="18"
+                          width="22"
+                          height="22"
                           viewBox="0 0 18 18"
                           fill="none"
                           xmlns="http://www.w3.org/2000/svg"
@@ -184,7 +255,7 @@ const Catagory = () => {
                             fill=""
                           />
                         </svg>
-                      </button> */}
+                      </button>
                       {/* edit btn */}
                       <button
                         onClick={() => openModal(packageItem)}
