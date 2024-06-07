@@ -16,8 +16,8 @@ const Catagory = () => {
   const [loading, setLoading] = useState<any>(false);
   const [deleteLoading, setDeleteLoading] = useState<any>(false);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [addCatagoryModal, setAddCatagoryModal] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [updateItem, setUpdateItem] = useState<any>();
 
   const openModal = (data: ICatagory) => {

@@ -142,7 +142,7 @@ const AddServices = () => {
             </label>
 
             <select
-              id="paymentMethod"
+              id="servicesCatagory"
               {...register('servicesCatagory', { required: true })}
               onClick={(e: any) => setSelectedMethod(e?.target?.value)}
               className="py-3 ps-3 w-full text-black bg-transparent rounded-md border-2 border-boxdark-2 dark:border-boxdark-2dark dark:bg-meta-4 dark:focus:border-primary"

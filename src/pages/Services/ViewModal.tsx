@@ -25,17 +25,14 @@ export const ViewModal = ({ viewItem, closeViewModal }: any) => {
               </strong>
             </div>
             <div className="text-black font-medium p-3">
-              <p>Service Provider: {viewItem.name}</p>
-              <p>Phone: {viewItem.name}</p>
-              <p>Email: {viewItem.name}</p>
-              <p>location: {viewItem.name}</p>
+              <p>Service Provider: {viewItem.serviceProviderName}</p>
+              <p>Phone: {viewItem.phone}</p>
+              <p>Email: {viewItem.email}</p>
+              <p>location: {viewItem.location}</p>
               <p>Service Name: {viewItem.name}</p>
               <p>Service Description: {viewItem.name}</p>
-              <p>Phone: {viewItem.name}</p>
-              <p>Email: {viewItem.name}</p>
-              <p>location: {viewItem.name}</p>
-              <p>Cataogry Name: {viewItem.name}</p>
-              <p>Cataogry description: {viewItem.name}</p>
+               <p>Cataogry Name: {viewItem?.servicesCatagory?.name}</p>
+              <p>Cataogry description: {viewItem?.servicesCatagory?.description}</p>
             </div>
           </div>
         </div>

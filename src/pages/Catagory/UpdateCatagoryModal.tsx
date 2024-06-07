@@ -1,8 +1,7 @@
 import { ChangeEvent, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
-import SelectOptions from '../../Ui/SelectOptions';
-import { ICatagory } from '../../types/packages';
+ import { ICatagory } from '../../types/packages';
 import { PuffLoader } from 'react-spinners';
 import { getKgcAdminToken } from '../../hooks/handelAdminToken';
 
@@ -25,6 +24,7 @@ export const UpdateCatagoryModal = ({
     const { name, value } = event.target;
     setFormState({ ...formState, [name]: value });
   };
+  
   const onSubmit: SubmitHandler<ICatagory> = async (data: ICatagory) => {
     setLoading(true);
 

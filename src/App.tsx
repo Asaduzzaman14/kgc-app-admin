@@ -16,6 +16,7 @@ import Services from './pages/Services/Services';
 import AddServices from './pages/Services/AddServices';
 import Donor from './pages/Donor/Donor';
 import Allusers from './pages/Users/Allusers';
+import Banner from './pages/Banner/Banner';
 
 function App() {
   const { pathname } = useLocation();
@@ -108,6 +109,16 @@ function App() {
               <>
                 <PageTitle title="Donors" />
                 <Donor />
+              </>
+            }
+          />
+         
+          <Route
+            path="/banner"
+            element={
+              <>
+                <PageTitle title="Banner" />
+                <Banner />
               </>
             }
           />

@@ -156,9 +156,9 @@ const Services = () => {
                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
                   Cataogry Name
                 </th>
-                <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
+                {/* <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
                   Cataogry description
-                </th>
+                </th> */}
                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
                   Service Provider
                 </th>
@@ -214,11 +214,11 @@ const Services = () => {
                     </p>
                   </td>
 
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                  {/* <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p className="text-black dark:text-white">
                       {packageItem?.servicesCatagory?.description}
                     </p>
-                  </td>
+                  </td> */}
 
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p className="text-black dark:text-white">
@@ -290,7 +290,7 @@ const Services = () => {
                       </button>
                       {/* edit btn */}
                       <button
-                        // onClick={() => openModal(packageItem)}
+                        onClick={() => openModal(packageItem)}
                         className="hover:text-primary"
                       >
                         <svg
