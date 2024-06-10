@@ -92,7 +92,7 @@ const AddServices = () => {
   const locations = [
     {
       id: 1,
-      locatin: 'Khagrachari',
+      locatin: 'Khagrachari Sadar',
     },
     {
       id: 2,

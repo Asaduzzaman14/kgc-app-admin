@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
- import { ICatagory } from '../../types/packages';
+import { ICatagory } from '../../types/packages';
 import { PuffLoader } from 'react-spinners';
 import { getKgcAdminToken } from '../../hooks/handelAdminToken';
 
@@ -24,7 +24,7 @@ export const UpdateCatagoryModal = ({
     const { name, value } = event.target;
     setFormState({ ...formState, [name]: value });
   };
-  
+
   const onSubmit: SubmitHandler<ICatagory> = async (data: ICatagory) => {
     setLoading(true);
 
@@ -126,6 +126,7 @@ export const UpdateCatagoryModal = ({
                   className="w-full rounded border border-stroke bg-gray py-3 pl-3 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                   {...register('img', { required: true })}
                   value={formState.img}
+                  onChange={handleChange}
                 />
               </div>
 

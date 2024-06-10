@@ -112,7 +112,7 @@ function App() {
               </>
             }
           />
-         
+
           <Route
             path="/banner"
             element={
