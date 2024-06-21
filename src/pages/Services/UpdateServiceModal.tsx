@@ -31,7 +31,7 @@ export const UpdateServiceModal = ({
   const [selectedMethod, setSelectedMethod] = useState<any>();
   const [catagory, setCatagory] = useState<any>();
 
-  const token = getKgcAdminToken()
+  const token = getKgcAdminToken();
 
   const getCatagory = async () => {
     const token = getKgcAdminToken();
@@ -53,12 +53,8 @@ export const UpdateServiceModal = ({
   };
 
   useEffect(() => {
-    getCatagory()
-
-
-  }, [])
-
-
+    getCatagory();
+  }, []);
 
   const { register, handleSubmit, control } = useForm<IService>();
 
@@ -67,26 +63,26 @@ export const UpdateServiceModal = ({
     setFormState({ ...formState, [name]: value });
   };
 
-
-
   const onSubmit: SubmitHandler<IService> = async (data: IService) => {
     setLoading(true);
 
     const newData = {
       ...data,
-      servicesCatagory: selectedMethod
+      servicesCatagory: selectedMethod,
     };
 
-
     try {
-      const response = await fetch(`https://kgc-app.vercel.app/api/v1/services/${updateItem?._id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `${token}`,
+      const response = await fetch(
+        `https://kgc-app.vercel.app/api/v1/services/${updateItem?._id}`,
+        {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `${token}`,
+          },
+          body: JSON.stringify(newData),
         },
-        body: JSON.stringify(newData),
-      });
+      );
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -110,7 +106,6 @@ export const UpdateServiceModal = ({
       });
     }
   };
-
 
   return (
     <div className="fixed left-0 top-0 z-999 flex h-full min-h-screen w-full items-center justify-center bg-black/90 py-5">
@@ -139,9 +134,8 @@ export const UpdateServiceModal = ({
               onSubmit={handleSubmit(onSubmit)}
               className="flex  flex-col w-full gap-5.5 p-6.5"
             >
-
               <div>
-                <p>  name</p>
+                <p> name</p>
                 <input
                   className="w-full rounded border border-stroke bg-gray py-3 pl-3 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                   {...register('name', { required: true })}
@@ -149,7 +143,6 @@ export const UpdateServiceModal = ({
                   onChange={handleChange}
                 />
               </div>
-
 
               <div>
                 <p>description</p>
@@ -181,7 +174,6 @@ export const UpdateServiceModal = ({
                 />
               </div>
 
-
               <div>
                 <p>location </p>
                 <input
@@ -191,7 +183,6 @@ export const UpdateServiceModal = ({
                   onChange={handleChange}
                 />
               </div>
-
 
               <div>
                 <p>serviceProviderName </p>
@@ -203,7 +194,7 @@ export const UpdateServiceModal = ({
                 />
               </div>
 
-              <div className='hidden'>
+              <div className="hidden">
                 <p>servicesCatagory </p>
                 <input
                   className="w-full rounded border border-stroke bg-gray py-3 pl-3 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
@@ -224,7 +215,6 @@ export const UpdateServiceModal = ({
                 <select
                   onClick={(e: any) => setSelectedMethod(e?.target?.value)}
                   defaultValue={formState?.servicesCatagory}
-
                   className="py-3 ps-3 w-full text-black bg-transparent rounded-md border-2 border-boxdark-2 dark:border-boxdark-2dark dark:bg-meta-4 dark:focus:border-primary"
                 >
                   {catagory?.data?.map((method: any) => (
@@ -232,7 +222,6 @@ export const UpdateServiceModal = ({
                       className="text-black"
                       key={method._id}
                       value={method._id}
-
                     >
                       {method.name}
                     </option>

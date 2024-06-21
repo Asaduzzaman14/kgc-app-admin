@@ -5,9 +5,12 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import BannerUpdate from './BannerUpdate';
+import AddBanners from './AddBanners';
 
 const Banner = () => {
   const [banner, setBanner] = useState<any>();
+  const [addBannerModal, setAddBannerModal] = useState(false);
+
   const token = getKgcAdminToken();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -90,9 +93,22 @@ const Banner = () => {
     });
   };
 
+  const closeAddModal = () => {
+    setAddBannerModal(false);
+  };
+
   return (
     <DefaultLayout>
       <Breadcrumb pageName="Banners" />
+      <div>
+        <button
+          type="button"
+          onClick={() => setAddBannerModal(true)}
+          className="btn mb-3 flex justify-center rounded bg-strokedark py-2 px-6 font-medium text-gray hover:shadow-1"
+        >
+          Add Banner
+        </button>
+      </div>
       <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
         <div className="max-w-full overflow-x-auto">
           <table className="w-full table-auto">
@@ -194,6 +210,12 @@ const Banner = () => {
             updateItem={updateItem}
             fetchData={getBanners}
           />
+        )}
+      </div>
+
+      <div>
+        {addBannerModal && (
+          <AddBanners closeModal={closeAddModal} fetchData={getBanners} />
         )}
       </div>
     </DefaultLayout>

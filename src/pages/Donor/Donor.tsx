@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import DefaultLayout from '../../layout/DefaultLayout';
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
 import axios from 'axios';
-import { formatToLocalDate } from '../../hooks/formatDate';
 import { getKgcAdminToken } from '../../hooks/handelAdminToken';
 import { ICatagory } from '../../types/packages';
 import { PuffLoader } from 'react-spinners';
@@ -46,20 +45,12 @@ const Donor = () => {
   useEffect(() => {
     fetchData();
   }, []);
+  console.log(datas);
 
   return (
     <DefaultLayout>
       <Breadcrumb pageName="Donors" />
 
-      {/* <div>
-        <button
-          type="button"
-          onClick={() => setAddCatagoryModal(!addCatagoryModal)}
-          className="btn flex justify-center rounded bg-strokedark py-2 px-6 font-medium text-gray hover:shadow-1"
-        >
-          Donors
-        </button>
-      </div> */}
       <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
         <div className="max-w-full overflow-x-auto">
           <table className="w-full table-auto">
@@ -74,6 +65,10 @@ const Donor = () => {
                 </th>
                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
                   Email
+                </th>
+
+                <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
+                  Blood Group
                 </th>
                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
                   last Donate
@@ -108,6 +103,12 @@ const Donor = () => {
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p className="text-black dark:text-white">
                       {packageItem?.email}
+                    </p>
+                  </td>
+
+                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                    <p className="text-black dark:text-white">
+                      {packageItem?.bloodGroup}
                     </p>
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
@@ -181,7 +182,7 @@ const Donor = () => {
                         </svg>
                       </button> */}
                       {/* edit btn */}
-                      <button
+                      {/* <button
                         onClick={() => openModal(packageItem)}
                         className="hover:text-primary"
                       >
@@ -202,7 +203,7 @@ const Donor = () => {
                             d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"
                           />
                         </svg>
-                      </button>
+                      </button> */}
                     </div>
                   </td>
                 </tr>

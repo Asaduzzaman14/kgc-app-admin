@@ -37,7 +37,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get<ApiResponse>(' ', {
+        const response = await axios.get<ApiResponse>('', {
           headers: {
             Authorization: `${token}`,
             'Content-Type': 'application/json',

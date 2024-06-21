@@ -3,10 +3,9 @@ import CardDataStats from '../../components/CardDataStats';
 import DefaultLayout from '../../layout/DefaultLayout';
 import UserIcon from '../../assets/icon/UserIcon';
 import { Link } from 'react-router-dom';
-import { FaUserCheck } from 'react-icons/fa6';
 import { PiPackage } from 'react-icons/pi';
 import axios from 'axios';
-import { getKgcAdminToken } from '../../hooks/handelAdminToken';
+import { getKgcAdminToken, logout } from '../../hooks/handelAdminToken';
 
 const BizTokenDashboard: React.FC = () => {
   const [datas, setDatas] = useState<any>([]);
@@ -16,80 +15,39 @@ const BizTokenDashboard: React.FC = () => {
 
   const token = getKgcAdminToken();
 
-  const fetchData = async () => {
+  const fetchData = async (url: any, setStateFunction: any) => {
     setLoading(true);
     try {
-      const response = await axios.get(
-        'https://kgc-app.vercel.app/api/v1/services-catagory',
-        {
-          headers: {
-            Authorization: `${token}`,
-            'Content-Type': 'application/json',
-          },
+      const response = await axios.get(url, {
+        headers: {
+          Authorization: `${token}`,
+          'Content-Type': 'application/json',
         },
-      );
+      });
       setLoading(false);
-
       if (response?.data?.success) {
-        setDatas(response?.data?.data);
+        setStateFunction(response?.data?.data);
       }
-    } catch (error) {
-      console.error('Error fetching data:', error);
+    } catch (error: any) {
+      setLoading(false);
+      if (
+        error.response &&
+        (error.response.status === 401 || error.response.status === 403)
+      ) {
+        logout();
+      }
+      console.error(`Error fetching data from ${url}:`, error);
     }
   };
 
   useEffect(() => {
-    fetchData();
+    fetchData('https://kgc-app.vercel.app/api/v1/services-catagory', setDatas);
+    fetchData('https://kgc-app.vercel.app/api/v1/services', setServices);
+    fetchData(
+      'https://kgc-app.vercel.app/api/v1/users/all-donnor?isDonor=true',
+      setUsers,
+    );
   }, []);
-
-  const fetchServiceData = async () => {
-    setLoading(true);
-    try {
-      const response = await axios.get(
-        'https://kgc-app.vercel.app/api/v1/services',
-        {
-          headers: {
-            Authorization: `${token}`,
-            'Content-Type': 'application/json',
-          },
-        },
-      );
-
-      setLoading(false);
-
-      if (response?.data?.success) {
-        setServices(response?.data?.data);
-      }
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
-
-  useEffect(() => {
-    fetchServiceData();
-  }, []);
-
-  const getusers = async () => {
-    setLoading(true);
-    try {
-      const response = await axios.get(
-        'https://kgc-app.vercel.app/api/v1/users/all-donnor?isDonor=true',
-      );
-
-      setLoading(false);
-
-      if (response?.data?.success) {
-        setUsers(response?.data?.data);
-      }
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
-
-  useEffect(() => {
-    getusers();
-  }, []);
-
   return (
     <DefaultLayout>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">

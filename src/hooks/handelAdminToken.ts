@@ -11,3 +11,9 @@ export const setKgcAdminToken = (token: string) => {
 export const removeKgcAdminToken = () => {
   localStorage.removeItem('kgc');
 };
+
+export const logout = () => {
+  console.log('Logging out...');
+  localStorage.removeItem('kgc');
+  window.location.href = '/login';
+};

@@ -17,6 +17,7 @@ import AddServices from './pages/Services/AddServices';
 import Donor from './pages/Donor/Donor';
 import Allusers from './pages/Users/Allusers';
 import Banner from './pages/Banner/Banner';
+import ProtectedRoute from './hooks/ProtectedRoute';
 
 function App() {
   const { pathname } = useLocation();
@@ -39,6 +40,7 @@ function App() {
             element={
               <>
                 <PageTitle title="SignIn" />
+
                 <SignIn />
               </>
             }
@@ -49,7 +51,9 @@ function App() {
             element={
               <>
                 <PageTitle title="KGC ADMIN" />
-                <BizTokenDashboard />
+                <ProtectedRoute>
+                  <BizTokenDashboard />
+                </ProtectedRoute>
               </>
             }
           />
@@ -59,7 +63,9 @@ function App() {
             element={
               <>
                 <PageTitle title="Catagory" />
-                <Catagory />
+                <ProtectedRoute>
+                  <Catagory />
+                </ProtectedRoute>
               </>
             }
           />
@@ -69,7 +75,9 @@ function App() {
             element={
               <>
                 <PageTitle title="services" />
-                <Services />
+                <ProtectedRoute>
+                  <Services />
+                </ProtectedRoute>
               </>
             }
           />
@@ -79,7 +87,9 @@ function App() {
             element={
               <>
                 <PageTitle title="services" />
-                <AddServices />
+                <ProtectedRoute>
+                  <AddServices />
+                </ProtectedRoute>
               </>
             }
           />
@@ -89,7 +99,9 @@ function App() {
             element={
               <>
                 <PageTitle title="All Users" />
-                <Allusers />
+                <ProtectedRoute>
+                  <Allusers />
+                </ProtectedRoute>
               </>
             }
           />
@@ -99,7 +111,9 @@ function App() {
             element={
               <>
                 <PageTitle title="Donors" />
-                <Donor />
+                <ProtectedRoute>
+                  <Donor />
+                </ProtectedRoute>
               </>
             }
           />
@@ -108,7 +122,9 @@ function App() {
             element={
               <>
                 <PageTitle title="Donors" />
-                <Donor />
+                <ProtectedRoute>
+                  <Donor />
+                </ProtectedRoute>
               </>
             }
           />
@@ -118,7 +134,9 @@ function App() {
             element={
               <>
                 <PageTitle title="Banner" />
-                <Banner />
+                <ProtectedRoute>
+                  <Banner />
+                </ProtectedRoute>
               </>
             }
           />
@@ -129,7 +147,9 @@ function App() {
               <>
                 <PageTitle title="Profile" />
                 <Suspense fallback={<Lazyloding />}>
-                  <Profile />
+                  <ProtectedRoute>
+                    <Profile />
+                  </ProtectedRoute>
                 </Suspense>
               </>
             }
