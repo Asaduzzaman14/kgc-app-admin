@@ -18,7 +18,7 @@ const AddBanners = ({ fetchData, closeModal, updateItem }: any) => {
   const onSubmit: SubmitHandler<Ibanner> = async (data: Ibanner) => {
     try {
       const token = getKgcAdminToken();
-      const response = await fetch('https://kgc-app.vercel.app/api/v1/banner', {
+      const response = await fetch('http://localhost:5000/api/v1/banner', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -34,16 +34,13 @@ const SignIn: React.FC = () => {
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     setLoading(true);
     try {
-      const response = await fetch(
-        'https://kgc-app.vercel.app/api/v1/auth/login',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
+      const response = await fetch('http://localhost:5000/api/v1/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      );
+        body: JSON.stringify(data),
+      });
 
       const responseData = await response.json();
 

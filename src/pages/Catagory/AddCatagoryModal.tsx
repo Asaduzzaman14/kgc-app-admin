@@ -26,7 +26,7 @@ export const AddCatagoryModal = ({ fetchData, closeModal }: IUpdatePackage) => {
       const token = getKgcAdminToken();
 
       const response = await fetch(
-        `https://kgc-app.vercel.app/api/v1/services-catagory`,
+        `http://localhost:5000/api/v1/services-catagory`,
         {
           method: 'POST',
           headers: {

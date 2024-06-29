@@ -18,6 +18,7 @@ type IService = {
   email: string; //
   location: string; //
   serviceProviderName: string;
+  addressDegree: string;
   servicesCatagory: string; //
 };
 
@@ -28,8 +29,22 @@ export const UpdateServiceModal = ({
 }: IUpdatePackage) => {
   const [lodaing, setLoading] = useState(false);
   const [formState, setFormState] = useState({ ...updateItem });
-  const [selectedMethod, setSelectedMethod] = useState<any>();
+  const [selectedMethod, setSelectedMethod] = useState<any>('');
+  const [selectedMethodId, setSelectedMethodId] = useState<any>('');
   const [catagory, setCatagory] = useState<any>();
+
+  useEffect(() => {
+    setSelectedMethod(updateItem?.servicesCatagory?.name);
+    setSelectedMethodId(updateItem?.servicesCatagory?._id);
+  }, []);
+
+  const upSelect = (e: any) => {
+    const selectedCategory = catagory?.data?.find((cat: any) => cat._id === e);
+    if (selectedCategory) {
+      setSelectedMethod(selectedCategory.name);
+      setSelectedMethodId(e);
+    }
+  };
 
   const token = getKgcAdminToken();
 
@@ -38,7 +53,7 @@ export const UpdateServiceModal = ({
 
     try {
       const response = await axios.get(
-        'https://kgc-app.vercel.app/api/v1/services-catagory',
+        'http://localhost:5000/api/v1/services-catagory',
         {
           headers: {
             Authorization: `${token}`,
@@ -60,7 +75,7 @@ export const UpdateServiceModal = ({
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setFormState({ ...formState, [name]: value });
+    setFormState({ [name]: value });
   };
 
   const onSubmit: SubmitHandler<IService> = async (data: IService) => {
@@ -68,12 +83,12 @@ export const UpdateServiceModal = ({
 
     const newData = {
       ...data,
-      servicesCatagory: selectedMethod,
+      servicesCatagory: selectedMethodId,
     };
 
     try {
       const response = await fetch(
-        `https://kgc-app.vercel.app/api/v1/services/${updateItem?._id}`,
+        `http://localhost:5000/api/v1/services/${updateItem?._id}`,
         {
           method: 'PATCH',
           headers: {
@@ -185,6 +200,16 @@ export const UpdateServiceModal = ({
               </div>
 
               <div>
+                <p>addressDegree </p>
+                <input
+                  className="w-full rounded border border-stroke bg-gray py-3 pl-3 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                  {...register('addressDegree', { required: true })}
+                  value={formState.addressDegree}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div>
                 <p>serviceProviderName </p>
                 <input
                   className="w-full rounded border border-stroke bg-gray py-3 pl-3 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
@@ -199,7 +224,7 @@ export const UpdateServiceModal = ({
                 <input
                   className="w-full rounded border border-stroke bg-gray py-3 pl-3 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                   {...register('servicesCatagory', { required: true })}
-                  value={formState.servicesCatagory._id}
+                  value={formState?.servicesCatagory?._id}
                   onChange={handleChange}
                 />
               </div>
@@ -213,15 +238,18 @@ export const UpdateServiceModal = ({
                 </label>
 
                 <select
-                  onClick={(e: any) => setSelectedMethod(e?.target?.value)}
-                  defaultValue={formState?.servicesCatagory}
+                  onChange={(e: any) => upSelect(e?.target?.value)}
+                  value={'default'}
                   className="py-3 ps-3 w-full text-black bg-transparent rounded-md border-2 border-boxdark-2 dark:border-boxdark-2dark dark:bg-meta-4 dark:focus:border-primary"
                 >
-                  {catagory?.data?.map((method: any) => (
+                  <option value="default" disabled>
+                    {selectedMethod}
+                  </option>
+                  {catagory?.data?.map((method: any, i: any) => (
                     <option
                       className="text-black"
                       key={method._id}
-                      value={method._id}
+                      value={method?._id}
                     >
                       {method.name}
                     </option>

@@ -4,6 +4,7 @@ import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
 import axios from 'axios';
 import { getKgcAdminToken } from '../../hooks/handelAdminToken';
 import { ICatagory } from '../../types/packages';
+import Swal from 'sweetalert2';
 
 const Allusers = () => {
   const [datas, setDatas] = useState<any>([]);
@@ -27,7 +28,7 @@ const Allusers = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        'https://kgc-app.vercel.app/api/v1/users/all-donnor',
+        'http://localhost:5000/api/v1/users/all-donnor',
       );
 
       if (response?.data?.success) {
@@ -41,7 +42,58 @@ const Allusers = () => {
   useEffect(() => {
     fetchData();
   }, []);
-  console.log(datas.data);
+
+  const deleteItems = async (id: string) => {
+    console.log(id);
+
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const response = await axios.delete(
+            `http://localhost:5000/api/v1/users/${id}`,
+            {
+              headers: {
+                Authorization: token,
+                'Content-Type': 'application/json',
+              },
+            },
+          );
+          fetchData();
+          if (response.data.success) {
+            setDatas(response.data.data);
+            Swal.fire({
+              title: 'Deleted!',
+              text: 'Your file has been deleted.',
+              icon: 'success',
+            });
+          } else {
+            Swal.fire({
+              title: 'Error!',
+              text:
+                response.data.message || 'An error occurred while deleting.',
+              icon: 'error',
+            });
+          }
+        } catch (error) {
+          console.error('Error deleting category:', error);
+          Swal.fire({
+            title: 'Error!',
+            text: 'An error occurred while deleting.',
+            icon: 'error',
+          });
+        }
+      }
+    });
+  };
+  console.log(datas);
 
   return (
     <DefaultLayout>
@@ -143,7 +195,10 @@ const Allusers = () => {
                         </svg>
                       </button>
                       {/* delete  */}
-                      {/* <button onClick={() => deletePackage(packageItem?.id)} className="hover:text-primary">
+                      <button
+                        onClick={() => deleteItems(packageItem?._id)}
+                        className="hover:text-primary"
+                      >
                         <svg
                           className="fill-current"
                           width="18"
@@ -169,8 +224,9 @@ const Allusers = () => {
                             fill=""
                           />
                         </svg>
-                      </button> */}
+                      </button>
                       {/* edit btn */}
+
                       <button
                         onClick={() => openModal(packageItem)}
                         className="hover:text-primary"

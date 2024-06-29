@@ -14,8 +14,9 @@ type Inputs = {
   phone: string; //
   email: string; //
   location: string; //
-  serviceProviderName: string;
+  addressDegree: string;
   servicesCatagory: string; //
+  serviceProviderName: string; //
 };
 const AddServices = () => {
   const [settings, setSettings] = useState<Inputs[] | null>([]);
@@ -33,7 +34,7 @@ const AddServices = () => {
 
     try {
       const response = await axios.get(
-        'https://kgc-app.vercel.app/api/v1/services-catagory',
+        'http://localhost:5000/api/v1/services-catagory',
         {
           headers: {
             Authorization: `${token}`,
@@ -55,17 +56,14 @@ const AddServices = () => {
     console.log(formData);
     const token = getKgcAdminToken();
     try {
-      const response = await fetch(
-        'https://kgc-app.vercel.app/api/v1/services',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `${token}`,
-          },
-          body: JSON.stringify(formData),
+      const response = await fetch('http://localhost:5000/api/v1/services', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `${token}`,
         },
-      );
+        body: JSON.stringify(formData),
+      });
       console.log(response);
 
       if (!response.ok) {
@@ -92,39 +90,31 @@ const AddServices = () => {
   const locations = [
     {
       id: 1,
-      locatin: 'Khagrachari Sadar',
+      locatin: 'খাগড়াছড়ি সদর',
     },
     {
       id: 2,
-      locatin: 'Dighinala',
+      locatin: 'দীঘিনালা',
     },
     {
       id: 3,
-      locatin: 'Mohalchari',
+      locatin: 'মানিকছড়ি',
     },
     {
       id: 4,
-      locatin: 'Panchari ',
+      locatin: 'লক্ষীছড়ি ',
     },
     {
       id: 5,
-      locatin: 'Matiranga',
+      locatin: 'মহালছড়ি',
     },
     {
       id: 6,
-      locatin: 'Manikchari',
+      locatin: 'গুইমারা',
     },
     {
       id: 7,
-      locatin: 'Lakshmichari',
-    },
-    {
-      id: 8,
-      locatin: 'Ramgarh',
-    },
-    {
-      id: 9,
-      locatin: 'Guimara',
+      locatin: 'রামগড়',
     },
   ];
 
@@ -159,15 +149,14 @@ const AddServices = () => {
               ))}
             </select>
           </div>
-
           <div className="w-full xl:w-1/2">
             <label className="mt-2.5 mb-0.5 block text-black dark:text-white">
-              Service Name
+              serviceProviderName
             </label>
             <input
               type="string"
-              {...register('name', { required: true })}
-              placeholder="Name"
+              {...register('serviceProviderName', { required: true })}
+              placeholder="serviceProviderName"
               className="w-full rounded border-[1.5px] border-boxdark-2 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
             />
           </div>
@@ -188,12 +177,12 @@ const AddServices = () => {
 
           <div className="w-full xl:w-1/2">
             <label className="mt-2.5 mb-0.5 block text-black dark:text-white">
-              Service Provider Name
+              addressDegree
             </label>
             <input
               type="string"
-              {...register('serviceProviderName', { required: true })}
-              placeholder="Service provider name"
+              {...register('addressDegree', { required: true })}
+              placeholder="addressDegree"
               className="w-full rounded border-[1.5px] border-boxdark-2 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
             />
           </div>
@@ -209,6 +198,7 @@ const AddServices = () => {
               className="w-full rounded border-[1.5px] border-boxdark-2 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
             />
           </div>
+
           <div className="w-full xl:w-1/2">
             <label className="mt-2.5 mb-0.5 block text-black dark:text-white">
               Email
@@ -220,18 +210,6 @@ const AddServices = () => {
               className="w-full rounded border-[1.5px] border-boxdark-2 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
             />
           </div>
-          {/* <div className="w-full xl:w-1/2">
-            <label className="mt-2.5 mb-0.5 block text-black dark:text-white">
-              Location
-            </label>
-            <input
-              type="string"
-              {...register('location', { required: true })}
-              placeholder="location"
-              className="w-full rounded border-[1.5px] border-boxdark-2 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-            />
-          </div> */}
-
           <div className="w-full xl:w-1/2">
             <label
               className="mt-2 block text-sm font-medium text-black dark:text-white"
@@ -254,6 +232,30 @@ const AddServices = () => {
             </select>
           </div>
 
+          {/* <div className="w-full xl:w-1/2">
+            <label className="mt-2.5 mb-0.5 block text-black dark:text-white">
+              Service Name
+            </label>
+            <input
+              type="string"
+              {...register('name', { required: true })}
+              placeholder="Name"
+              className="w-full rounded border-[1.5px] border-boxdark-2 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+            />
+          </div> */}
+
+          {/* <div className="w-full xl:w-1/2">
+            <label className="mt-2.5 mb-0.5 block text-black dark:text-white">
+              Location
+            </label>
+            <input
+              type="string"
+              {...register('location', { required: true })}
+              placeholder="location"
+              className="w-full rounded border-[1.5px] border-boxdark-2 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+            />
+          </div> */}
+
           <Button cs="px-10 my-5 bg-primary" btnName="Submit"></Button>
         </form>
       </div>
@@ -262,3 +264,12 @@ const AddServices = () => {
 };
 
 export default AddServices;
+
+// 1 category
+// 2 service provider name
+// 3 desc
+// 4 address/degree
+
+// 5 phone
+// 6 email
+// 7 location

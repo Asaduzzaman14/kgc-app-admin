@@ -18,6 +18,7 @@ import Donor from './pages/Donor/Donor';
 import Allusers from './pages/Users/Allusers';
 import Banner from './pages/Banner/Banner';
 import ProtectedRoute from './hooks/ProtectedRoute';
+import Setting from './pages/Setting';
 
 function App() {
   const { pathname } = useLocation();
@@ -136,6 +137,18 @@ function App() {
                 <PageTitle title="Banner" />
                 <ProtectedRoute>
                   <Banner />
+                </ProtectedRoute>
+              </>
+            }
+          />
+
+          <Route
+            path="/settings"
+            element={
+              <>
+                <PageTitle title="Settings" />
+                <ProtectedRoute>
+                  <Setting />
                 </ProtectedRoute>
               </>
             }

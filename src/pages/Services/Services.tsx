@@ -30,6 +30,7 @@ const Services = () => {
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [updateItem, setUpdateItem] = useState<any>();
   const [viewItem, setViewItem] = useState<any>();
+  console.log(datas);
 
   const openModal = (data: any) => {
     setUpdateItem(data);
@@ -54,7 +55,7 @@ const Services = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        'https://kgc-app.vercel.app/api/v1/services',
+        'http://localhost:5000/api/v1/services',
         {
           headers: {
             Authorization: `${token}`,
@@ -90,7 +91,7 @@ const Services = () => {
       if (result.isConfirmed) {
         try {
           const response = await axios.delete(
-            `https://kgc-app.vercel.app/api/v1/services/${id}`,
+            `http://localhost:5000/api/v1/services/${id}`,
             {
               headers: {
                 Authorization: token,
@@ -160,7 +161,11 @@ const Services = () => {
                   Cataogry description
                 </th> */}
                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
-                  Service Provider
+                  addressDegree
+                </th>
+
+                <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
+                  Service-Provider-Name
                 </th>
 
                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
@@ -219,6 +224,12 @@ const Services = () => {
                       {packageItem?.servicesCatagory?.description}
                     </p>
                   </td> */}
+
+                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                    <p className="text-black dark:text-white">
+                      {packageItem?.addressDegree}
+                    </p>
+                  </td>
 
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p className="text-black dark:text-white">
