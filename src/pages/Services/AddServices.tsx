@@ -9,14 +9,14 @@ import Swal from 'sweetalert2';
 
 type Inputs = {
   id: number;
-  name: string; //
-  description: string; //
-  phone: string; //
-  email: string; //
-  location: string; //
+  name: string;
+  description: string;
+  phone: string;
+  email: string;
+  location: string;
   addressDegree: string;
-  servicesCatagory: string; //
-  serviceProviderName: string; //
+  servicesCatagory: string;
+  serviceProviderName: string;
 };
 const AddServices = () => {
   const [settings, setSettings] = useState<Inputs[] | null>([]);
@@ -34,7 +34,7 @@ const AddServices = () => {
 
     try {
       const response = await axios.get(
-        'http://localhost:5000/api/v1/services-catagory',
+        'https://kgc-app.vercel.app/api/v1/services-catagory',
         {
           headers: {
             Authorization: `${token}`,
@@ -53,17 +53,22 @@ const AddServices = () => {
   }, []);
 
   const onSubmit = async (formData: any) => {
+    formData.status = true;
     console.log(formData);
+
     const token = getKgcAdminToken();
     try {
-      const response = await fetch('http://localhost:5000/api/v1/services', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `${token}`,
+      const response = await fetch(
+        'https://kgc-app.vercel.app/api/v1/services',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `${token}`,
+          },
+          body: JSON.stringify(formData),
         },
-        body: JSON.stringify(formData),
-      });
+      );
       console.log(response);
 
       if (!response.ok) {
@@ -94,27 +99,35 @@ const AddServices = () => {
     },
     {
       id: 2,
-      locatin: 'দীঘিনালা',
+      locatin: 'পানছড়ি',
     },
     {
       id: 3,
-      locatin: 'মানিকছড়ি',
+      locatin: 'মাটিরাঙ্গা',
     },
     {
       id: 4,
-      locatin: 'লক্ষীছড়ি ',
+      locatin: 'দীঘিনালা ',
     },
     {
       id: 5,
-      locatin: 'মহালছড়ি',
+      locatin: 'মানিকছড়ি',
     },
     {
       id: 6,
-      locatin: 'গুইমারা',
+      locatin: 'মহালছড়ি',
     },
     {
       id: 7,
       locatin: 'রামগড়',
+    },
+    {
+      id: 8,
+      locatin: 'গুইমারা ',
+    },
+    {
+      id: 9,
+      locatin: 'লক্ষ্মীছড়ি  ',
     },
   ];
 
@@ -207,6 +220,18 @@ const AddServices = () => {
               type="email"
               {...register('email', { required: true })}
               placeholder="Email"
+              className="w-full rounded border-[1.5px] border-boxdark-2 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+            />
+          </div>
+
+          <div className="w-full xl:w-1/2">
+            <label className="mt-2.5 mb-0.5 block text-black dark:text-white">
+              Name
+            </label>
+            <input
+              type="name"
+              {...register('name', { required: true })}
+              placeholder="Name"
               className="w-full rounded border-[1.5px] border-boxdark-2 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
             />
           </div>

@@ -16,6 +16,9 @@ type IService = {
   description: string; //
   phone: string; //
   email: string; //
+  serialNo: number;
+  status: boolean; //
+  premium: boolean; //
   location: string; //
   serviceProviderName: string;
   addressDegree: string;
@@ -53,7 +56,7 @@ export const UpdateServiceModal = ({
 
     try {
       const response = await axios.get(
-        'http://localhost:5000/api/v1/services-catagory',
+        'https://kgc-app.vercel.app/api/v1/services-catagory',
         {
           headers: {
             Authorization: `${token}`,
@@ -73,12 +76,18 @@ export const UpdateServiceModal = ({
 
   const { register, handleSubmit, control } = useForm<IService>();
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    event: ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
+  ) => {
     const { name, value } = event.target;
     setFormState({ [name]: value });
   };
 
-  const onSubmit: SubmitHandler<IService> = async (data: IService) => {
+  const onSubmit: SubmitHandler<IService> = async (
+    data: IService | HTMLSelectElement,
+  ) => {
     setLoading(true);
 
     const newData = {
@@ -88,7 +97,7 @@ export const UpdateServiceModal = ({
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/v1/services/${updateItem?._id}`,
+        `https://kgc-app.vercel.app/api/v1/services/${updateItem?._id}`,
         {
           method: 'PATCH',
           headers: {
@@ -161,7 +170,7 @@ export const UpdateServiceModal = ({
 
               <div>
                 <p>description</p>
-                <input
+                <textarea
                   className="w-full rounded border border-stroke bg-gray py-3 pl-3 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                   {...register('description', { required: true })}
                   value={formState.description}
@@ -218,6 +227,16 @@ export const UpdateServiceModal = ({
                   onChange={handleChange}
                 />
               </div>
+              <div>
+                <p>Serial No </p>
+                <input
+                  className="w-full rounded border border-stroke bg-gray py-3 pl-3 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                  {...register('serialNo', { required: true })}
+                  value={formState.serialNo}
+                  type="number"
+                  onChange={handleChange}
+                />
+              </div>
 
               <div className="hidden">
                 <p>servicesCatagory </p>
@@ -227,6 +246,31 @@ export const UpdateServiceModal = ({
                   value={formState?.servicesCatagory?._id}
                   onChange={handleChange}
                 />
+              </div>
+              <div>
+                <p>Premium</p>
+                <select
+                  className="w-full rounded border border-stroke bg-gray py-3 pl-3 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                  {...register('premium')}
+                  value={formState.premium}
+                  onChange={handleChange}
+                >
+                  <option value="true">Premium</option>
+                  <option value="false">Free</option>
+                </select>
+              </div>
+
+              <div>
+                <p>Status</p>
+                <select
+                  className="w-full rounded border border-stroke bg-gray py-3 pl-3 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                  {...register('status')}
+                  value={formState.status}
+                  onChange={handleChange}
+                >
+                  <option value="true">Approve</option>
+                  <option value="false">Decline</option>
+                </select>
               </div>
 
               <div className="w-full xl:w-1/2">

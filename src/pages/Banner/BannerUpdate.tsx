@@ -20,7 +20,7 @@ const BannerUpdate = ({ fetchData, closeModal, updateItem }: any) => {
       const token = getKgcAdminToken();
       console.log(data, 'aasasa');
       const response = await fetch(
-        `http://localhost:5000/api/v1/banner/${updateItem._id}`,
+        `https://kgc-app.vercel.app/api/v1/banner/${updateItem._id}`,
         {
           method: 'PATCH',
           headers: {

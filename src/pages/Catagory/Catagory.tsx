@@ -39,7 +39,7 @@ const Catagory = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        'http://localhost:5000/api/v1/services-catagory',
+        'https://kgc-app.vercel.app/api/v1/services-catagory',
         {
           headers: {
             Authorization: `${token}`,
@@ -74,7 +74,7 @@ const Catagory = () => {
         try {
           setDeleteLoading(true);
           const response = await axios.delete(
-            `http://localhost:5000/api/v1/services-catagory/${id}`,
+            `https://kgc-app.vercel.app/api/v1/services-catagory/${id}`,
             {
               headers: {
                 Authorization: token,
@@ -156,6 +156,9 @@ const Catagory = () => {
                   Description
                 </th>
                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
+                  serialNo
+                </th>
+                <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
                   Updated
                 </th>
 
@@ -192,6 +195,11 @@ const Catagory = () => {
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p className="text-black dark:text-white">
                       {packageItem?.description}
+                    </p>
+                  </td>
+                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                    <p className="text-black dark:text-white">
+                      {packageItem?.serialNo}
                     </p>
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">

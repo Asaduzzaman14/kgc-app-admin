@@ -9,7 +9,7 @@ export type ICatagory = {
   img?: string | null;
   description?: string;
   name?: string;
-
+  serialNo: number;
   status: string | IStatus;
   id?: number;
   created_at?: string;

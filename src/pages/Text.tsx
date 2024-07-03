@@ -1,17 +1,16 @@
-import { useEffect, useState } from 'react';
-import Swal from 'sweetalert2';
+import React, { useEffect, useState } from 'react';
+import { getKgcAdminToken } from '../hooks/handelAdminToken';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import Button from '../Ui/Button';
-import DefaultLayout from '../layout/DefaultLayout';
-import { getKgcAdminToken } from '../hooks/handelAdminToken';
-import Text from './Text';
+import Swal from 'sweetalert2';
 
-type INotice = {
-  notice?: string;
+type IText = {
+  text: string;
+  status: boolean;
 };
 
-const Setting = () => {
+const ScrollText = () => {
   const token = getKgcAdminToken();
   const [notice, setNotice] = useState<any[]>();
   const [loading, setLoading] = useState<boolean>(false);
@@ -20,7 +19,7 @@ const Setting = () => {
     formState: { errors },
     handleSubmit,
     control,
-  } = useForm<INotice>();
+  } = useForm<IText>();
   const [isChecked, setIsChecked] = useState<any>();
 
   const handleCheckboxChange = (event: any) => {
@@ -37,7 +36,7 @@ const Setting = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          ' https://kgc-app.vercel.app/api/v1/notice/allnotice',
+          ' https://kgc-app.vercel.app/api/v1/scroll-text/all',
           {
             headers: {
               Authorization: `${token}`,
@@ -70,7 +69,7 @@ const Setting = () => {
 
     try {
       const response = await fetch(
-        ` https://kgc-app.vercel.app/api/v1/notice/${notice[0]._id}`,
+        ` https://kgc-app.vercel.app/api/v1/scroll-text/${notice[0]._id}`,
         {
           method: 'PATCH',
           headers: {
@@ -109,46 +108,41 @@ const Setting = () => {
   };
 
   return (
-    <DefaultLayout>
-      <div className="mt-8">
-        <h2 className="text-2xl font-semibold text-black dark:text-white">
-          Setting
-        </h2>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="w-full xl:w-1/2">
-            <div className="flex gap-4 place-items-center">
-              <label className="mt-2.5 block text-black dark:text-white">
-                Notice
+    <div>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="w-full xl:w-1/2">
+          <div className="flex gap-4 place-items-center">
+            <label className="mt-2.5 block text-black dark:text-white">
+              Scroll text
+            </label>
+            <div>
+              <label className="switch">
+                <input
+                  type="checkbox"
+                  checked={isChecked}
+                  onChange={handleCheckboxChange}
+                />
+                <span className="slider round"></span>
               </label>
-              <div>
-                <label className="switch">
-                  <input
-                    type="checkbox"
-                    checked={isChecked}
-                    onChange={handleCheckboxChange}
-                  />
-                  <span className="slider round"></span>
-                </label>
-              </div>
             </div>
-            <textarea
-              {...register('notice', { required: true })}
-              placeholder="Notice"
-              className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-              defaultValue={notice && notice[0]?.notice}
-            />
           </div>
+          <textarea
+            {...register('text', { required: true })}
+            placeholder="text"
+            className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+            defaultValue={notice && notice[0]?.text}
+          />
+          {errors.text && <p className="text-red-500">Text is required</p>}
+        </div>
 
-          {loading ? (
-            <p>Loading...</p>
-          ) : (
-            <Button cs="px-10 my-5 bg-primary" btnName="Submit" />
-          )}
-        </form>
-      </div>{' '}
-      <Text />
-    </DefaultLayout>
+        {loading ? (
+          <p>Loading...</p>
+        ) : (
+          <Button cs="px-10 my-5 bg-primary" btnName="Submit" />
+        )}
+      </form>
+    </div>
   );
 };
 
-export default Setting;
+export default ScrollText;

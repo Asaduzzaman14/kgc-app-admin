@@ -39,7 +39,7 @@ export const UpdateCatagoryModal = ({
       const token = getKgcAdminToken();
 
       const response = await fetch(
-        `http://localhost:5000/api/v1/services-catagory/${updateItem._id}`,
+        `https://kgc-app.vercel.app/api/v1/services-catagory/${updateItem._id}`,
         {
           method: 'PATCH',
           headers: {
@@ -126,6 +126,16 @@ export const UpdateCatagoryModal = ({
                   className="w-full rounded border border-stroke bg-gray py-3 pl-3 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                   {...register('img', { required: true })}
                   value={formState.img}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <p>Serial No</p>
+                <input
+                  className="w-full rounded border border-stroke bg-gray py-3 pl-3 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                  {...register('serialNo', { required: true })}
+                  type="number"
+                  value={formState.serialNo}
                   onChange={handleChange}
                 />
               </div>

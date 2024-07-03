@@ -4,7 +4,6 @@ import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
 import axios from 'axios';
 import { formatToLocalDate } from '../../hooks/formatDate';
 import { getKgcAdminToken } from '../../hooks/handelAdminToken';
-import { ICatagory } from '../../types/packages';
 import { UpdateServiceModal } from './UpdateServiceModal';
 import { PuffLoader } from 'react-spinners';
 import Swal from 'sweetalert2';
@@ -30,7 +29,6 @@ const Services = () => {
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [updateItem, setUpdateItem] = useState<any>();
   const [viewItem, setViewItem] = useState<any>();
-  console.log(datas);
 
   const openModal = (data: any) => {
     setUpdateItem(data);
@@ -55,7 +53,7 @@ const Services = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        'http://localhost:5000/api/v1/services',
+        'https://kgc-app.vercel.app/api/v1/services',
         {
           headers: {
             Authorization: `${token}`,
@@ -91,7 +89,7 @@ const Services = () => {
       if (result.isConfirmed) {
         try {
           const response = await axios.delete(
-            `http://localhost:5000/api/v1/services/${id}`,
+            `https://kgc-app.vercel.app/api/v1/services/${id}`,
             {
               headers: {
                 Authorization: token,
@@ -167,7 +165,16 @@ const Services = () => {
                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
                   Service-Provider-Name
                 </th>
+                <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
+                  Premium
+                </th>
+                <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
+                  Serial No
+                </th>
 
+                <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
+                  Status
+                </th>
                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
                   Created
                 </th>
@@ -193,7 +200,11 @@ const Services = () => {
 
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p className="text-black dark:text-white">
-                      {packageItem?.description}
+                      <p>
+                        {packageItem?.description.length > 55
+                          ? packageItem.description.slice(0, 55) + '...'
+                          : packageItem.description}
+                      </p>
                     </p>
                   </td>
 
@@ -236,7 +247,31 @@ const Services = () => {
                       {packageItem?.serviceProviderName}
                     </p>
                   </td>
+                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                    <p
+                      className={`text-white dark:text-white  rounded-full w-fit px-3 ${
+                        packageItem?.premium ? '  bg-green-500' : '  bg-red-400'
+                      }`}
+                    >
+                      {packageItem?.premium ? 'Premium' : 'Free'}
+                    </p>
+                  </td>
 
+                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                    <p className="text-black dark:text-white">
+                      {packageItem?.serialNo}
+                    </p>
+                  </td>
+
+                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                    <p
+                      className={`text-white dark:text-white  rounded-full w-fit px-3 ${
+                        packageItem?.status ? '  bg-green-500' : '  bg-red-400'
+                      }`}
+                    >
+                      {packageItem?.status ? 'Approve' : 'Decline'}
+                    </p>
+                  </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p className="text-black dark:text-white">
                       {formatToLocalDate(packageItem.createdAt)}

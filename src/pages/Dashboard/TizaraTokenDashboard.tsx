@@ -41,10 +41,10 @@ const BizTokenDashboard: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchData('http://localhost:5000/api/v1/services-catagory', setDatas);
-    fetchData('http://localhost:5000/api/v1/services', setServices);
+    fetchData('https://kgc-app.vercel.app/api/v1/services-catagory', setDatas);
+    fetchData('https://kgc-app.vercel.app/api/v1/services', setServices);
     fetchData(
-      'http://localhost:5000/api/v1/users/all-donnor?isDonor=true',
+      'https://kgc-app.vercel.app/api/v1/users/all-donnor?isDonor=true',
       setUsers,
     );
   }, []);
