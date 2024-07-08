@@ -18,14 +18,17 @@ const AddBanners = ({ fetchData, closeModal, updateItem }: any) => {
   const onSubmit: SubmitHandler<Ibanner> = async (data: Ibanner) => {
     try {
       const token = getKgcAdminToken();
-      const response = await fetch('https://kgc-app.vercel.app/api/v1/banner', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `${token}`,
+      const response = await fetch(
+        'https://kgc-app-sigma.vercel.app/api/v1/banner',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `${token}`,
+          },
+          body: JSON.stringify(data),
         },
-        body: JSON.stringify(data),
-      });
+      );
       console.log(response);
       if (!response.ok) {
         throw new Error('Network response was not ok');

@@ -29,7 +29,7 @@ const Donor = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        'https://kgc-app.vercel.app/api/v1/users/all-donnor?isDonor=true',
+        'https://kgc-app-sigma.vercel.app/api/v1/users/all-donnor?isDonor=true',
       );
 
       setLoading(false);

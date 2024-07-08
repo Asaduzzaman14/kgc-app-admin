@@ -39,7 +39,7 @@ const Catagory = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        'https://kgc-app.vercel.app/api/v1/services-catagory',
+        'https://kgc-app-sigma.vercel.app/api/v1/services-catagory',
         {
           headers: {
             Authorization: `${token}`,
@@ -74,7 +74,7 @@ const Catagory = () => {
         try {
           setDeleteLoading(true);
           const response = await axios.delete(
-            `https://kgc-app.vercel.app/api/v1/services-catagory/${id}`,
+            `https://kgc-app-sigma.vercel.app/api/v1/services-catagory/${id}`,
             {
               headers: {
                 Authorization: token,

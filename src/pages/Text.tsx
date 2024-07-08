@@ -36,7 +36,7 @@ const ScrollText = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          ' https://kgc-app.vercel.app/api/v1/scroll-text/all',
+          ' https://kgc-app-sigma.vercel.app/api/v1/scroll-text/all',
           {
             headers: {
               Authorization: `${token}`,
@@ -69,7 +69,7 @@ const ScrollText = () => {
 
     try {
       const response = await fetch(
-        ` https://kgc-app.vercel.app/api/v1/scroll-text/${notice[0]._id}`,
+        `https://kgc-app-sigma.vercel.app/api/v1/scroll-text/${notice[0]._id}`,
         {
           method: 'PATCH',
           headers: {
@@ -85,13 +85,13 @@ const ScrollText = () => {
       if (responseData.success) {
         Swal.fire({
           title: 'Success',
-          text: 'Notice successfully updated ',
+          text: 'Scroll text successfully updated ',
           icon: 'success',
         });
       } else {
         Swal.fire({
           title: 'Error',
-          text: responseData?.message || 'Failed to update reward Level',
+          text: 'Failed to update',
           icon: 'error',
         });
       }
