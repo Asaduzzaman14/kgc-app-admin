@@ -53,7 +53,7 @@ const Services = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        'https://kgc-app-sigma.vercel.app/api/v1/services',
+        'https://api.khagrachariplus.com/api/v1/services',
         {
           headers: {
             Authorization: `${token}`,
@@ -89,7 +89,7 @@ const Services = () => {
       if (result.isConfirmed) {
         try {
           const response = await axios.delete(
-            `https://kgc-app-sigma.vercel.app/api/v1/services/${id}`,
+            `https://api.khagrachariplus.com/api/v1/services/${id}`,
             {
               headers: {
                 Authorization: token,

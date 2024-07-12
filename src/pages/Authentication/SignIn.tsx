@@ -35,7 +35,7 @@ const SignIn: React.FC = () => {
     setLoading(true);
     try {
       const response = await fetch(
-        'https://kgc-app-sigma.vercel.app/api/v1/auth/login',
+        'https://api.khagrachariplus.com/api/v1/auth/login',
         {
           method: 'POST',
           headers: {

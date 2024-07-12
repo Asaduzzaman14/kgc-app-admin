@@ -19,7 +19,7 @@ const AddBanners = ({ fetchData, closeModal, updateItem }: any) => {
     try {
       const token = getKgcAdminToken();
       const response = await fetch(
-        'https://kgc-app-sigma.vercel.app/api/v1/banner',
+        'https://api.khagrachariplus.com/api/v1/banner',
         {
           method: 'POST',
           headers: {

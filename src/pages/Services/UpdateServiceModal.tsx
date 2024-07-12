@@ -56,7 +56,7 @@ export const UpdateServiceModal = ({
 
     try {
       const response = await axios.get(
-        'https://kgc-app-sigma.vercel.app/api/v1/services-catagory',
+        'https://api.khagrachariplus.com/api/v1/services-catagory',
         {
           headers: {
             Authorization: `${token}`,
@@ -97,7 +97,7 @@ export const UpdateServiceModal = ({
 
     try {
       const response = await fetch(
-        `https://kgc-app-sigma.vercel.app/api/v1/services/${updateItem?._id}`,
+        `https://api.khagrachariplus.com/api/v1/services/${updateItem?._id}`,
         {
           method: 'PATCH',
           headers: {

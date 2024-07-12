@@ -42,12 +42,12 @@ const BizTokenDashboard: React.FC = () => {
 
   useEffect(() => {
     fetchData(
-      'https://kgc-app-sigma.vercel.app/api/v1/services-catagory',
+      'https://api.khagrachariplus.com/api/v1/services-catagory',
       setDatas,
     );
-    fetchData('https://kgc-app-sigma.vercel.app/api/v1/services', setServices);
+    fetchData('https://api.khagrachariplus.com/api/v1/services', setServices);
     fetchData(
-      'https://kgc-app-sigma.vercel.app/api/v1/users/all-donnor?isDonor=true',
+      'https://api.khagrachariplus.com/api/v1/users/all-donnor?isDonor=true',
       setUsers,
     );
   }, []);

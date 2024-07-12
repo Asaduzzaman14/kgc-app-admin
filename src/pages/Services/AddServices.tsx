@@ -34,7 +34,7 @@ const AddServices = () => {
 
     try {
       const response = await axios.get(
-        'https://kgc-app-sigma.vercel.app/api/v1/services-catagory',
+        'https://api.khagrachariplus.com/api/v1/services-catagory',
         {
           headers: {
             Authorization: `${token}`,
@@ -59,7 +59,7 @@ const AddServices = () => {
     const token = getKgcAdminToken();
     try {
       const response = await fetch(
-        'https://kgc-app-sigma.vercel.app/api/v1/services',
+        'https://api.khagrachariplus.com/api/v1/services',
         {
           method: 'POST',
           headers: {

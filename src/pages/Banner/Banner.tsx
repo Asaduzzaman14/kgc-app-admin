@@ -26,7 +26,7 @@ const Banner = () => {
   const getBanners = async () => {
     try {
       const response = await axios.get(
-        'https://kgc-app-sigma.vercel.app/api/v1/banner',
+        'https://api.khagrachariplus.com/api/v1/banner',
         {
           headers: {
             Authorization: `${token}`,
@@ -58,7 +58,7 @@ const Banner = () => {
       if (result.isConfirmed) {
         try {
           const response = await axios.delete(
-            `https://kgc-app-sigma.vercel.app/api/v1/banner/${id}`,
+            `https://api.khagrachariplus.com/api/v1/banner/${id}`,
             {
               headers: {
                 Authorization: token,

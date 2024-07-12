@@ -37,7 +37,7 @@ const Setting = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          ' https://kgc-app-sigma.vercel.app/api/v1/notice/allnotice',
+          ' https://api.khagrachariplus.com/api/v1/notice/allnotice',
           {
             headers: {
               Authorization: `${token}`,
@@ -70,7 +70,7 @@ const Setting = () => {
 
     try {
       const response = await fetch(
-        ` https://kgc-app-sigma.vercel.app/api/v1/notice/${notice[0]._id}`,
+        ` https://api.khagrachariplus.com/api/v1/notice/${notice[0]._id}`,
         {
           method: 'PATCH',
           headers: {

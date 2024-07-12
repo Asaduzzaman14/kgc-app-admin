@@ -39,7 +39,7 @@ export const UpdateCatagoryModal = ({
       const token = getKgcAdminToken();
 
       const response = await fetch(
-        `https://kgc-app-sigma.vercel.app/api/v1/services-catagory/${updateItem._id}`,
+        `https://api.khagrachariplus.com/api/v1/services-catagory/${updateItem._id}`,
         {
           method: 'PATCH',
           headers: {

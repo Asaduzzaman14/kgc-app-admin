@@ -28,7 +28,7 @@ const Allusers = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        'https://kgc-app-sigma.vercel.app/api/v1/users/all-donnor',
+        'https://api.khagrachariplus.com/api/v1/users/all-donnor',
       );
 
       if (response?.data?.success) {
@@ -58,7 +58,7 @@ const Allusers = () => {
       if (result.isConfirmed) {
         try {
           const response = await axios.delete(
-            `https://kgc-app-sigma.vercel.app/api/v1/users/${id}`,
+            `https://api.khagrachariplus.com/api/v1/users/${id}`,
             {
               headers: {
                 Authorization: token,
