@@ -8,6 +8,8 @@ import { UpdateServiceModal } from './UpdateServiceModal';
 import { PuffLoader } from 'react-spinners';
 import Swal from 'sweetalert2';
 import { ViewModal } from './ViewModal';
+import { baseAPi } from '../../utils/api';
+import PaginationButtons from '../../components/PaginationButtons';
 
 type IService = {
   id: number;
@@ -30,6 +32,18 @@ const Services = () => {
   const [updateItem, setUpdateItem] = useState<any>();
   const [viewItem, setViewItem] = useState<any>();
 
+  const [meta, setMeta] = useState({
+    total: 1,
+    page: 1,
+    limit: 1,
+  });
+  // searching
+  const [search, setSearch] = useState('');
+
+  // pagination calculate
+  const [currentPage, setCurrentPage] = useState(0);
+  const [perPage, setparePage] = useState(25);
+
   const openModal = (data: any) => {
     setUpdateItem(data);
     setIsModalOpen(true);
@@ -48,12 +62,14 @@ const Services = () => {
   };
 
   const token = getKgcAdminToken();
-
+  // admin/all-services
   const fetchData = async () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        'https://api.khagrachariplus.com/api/v1/services',
+        `${baseAPi}/services/admin/all-services?page=${
+          currentPage + 1
+        }&limit=${perPage}`,
         {
           headers: {
             Authorization: `${token}`,
@@ -63,18 +79,16 @@ const Services = () => {
       );
 
       setLoading(false);
+      console.log(response?.data?.data?.meta);
 
       if (response?.data?.success) {
         setDatas(response?.data?.data);
+        setMeta(response?.data?.data?.meta);
       }
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   const deleteServices = async (id: string) => {
     Swal.fire({
@@ -88,15 +102,12 @@ const Services = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await axios.delete(
-            `https://api.khagrachariplus.com/api/v1/services/${id}`,
-            {
-              headers: {
-                Authorization: token,
-                'Content-Type': 'application/json',
-              },
+          const response = await axios.delete(`${baseAPi}/services/${id}`, {
+            headers: {
+              Authorization: token,
+              'Content-Type': 'application/json',
             },
-          );
+          });
           fetchData();
           if (response.data.success) {
             Swal.fire({
@@ -123,6 +134,10 @@ const Services = () => {
       }
     });
   };
+
+  useEffect(() => {
+    fetchData();
+  }, [currentPage]);
 
   return (
     <DefaultLayout>
@@ -382,6 +397,13 @@ const Services = () => {
             fetchData={fetchData}
           />
         )}
+      </div>
+      <div className="my-4">
+        <PaginationButtons
+          totalPages={Math?.ceil(meta?.total / perPage)}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
       </div>
     </DefaultLayout>
   );
