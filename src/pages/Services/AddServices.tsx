@@ -129,6 +129,14 @@ const AddServices = () => {
       id: 9,
       locatin: 'লক্ষ্মীছড়ি  ',
     },
+    {
+      id: 10,
+      locatin: 'চট্টগ্রাম',
+    },
+    {
+      id: 11,
+      locatin: 'ঢাকা',
+    },
   ];
 
   return (
