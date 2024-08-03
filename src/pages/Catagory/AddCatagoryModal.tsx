@@ -8,6 +8,7 @@ export type ICatagory = {
   img?: string | null;
   description?: string;
   name: string;
+  serialNo: number;
 };
 interface IUpdatePackage {
   fetchData: () => void;
@@ -20,8 +21,7 @@ export const AddCatagoryModal = ({ fetchData, closeModal }: IUpdatePackage) => {
 
   const onSubmit: SubmitHandler<ICatagory> = async (data: ICatagory) => {
     setLoading(true);
-    console.log(data);
-
+    data.serialNo = 999;
     try {
       const token = getKgcAdminToken();
 
@@ -52,6 +52,8 @@ export const AddCatagoryModal = ({ fetchData, closeModal }: IUpdatePackage) => {
         });
       }
     } catch (error) {
+      setLoading(false);
+
       Swal.fire({
         title: 'error',
         text: 'Something wrong',
