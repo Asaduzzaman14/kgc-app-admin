@@ -19,6 +19,8 @@ import Allusers from './pages/Users/Allusers';
 import Banner from './pages/Banner/Banner';
 import ProtectedRoute from './hooks/ProtectedRoute';
 import Setting from './pages/Setting';
+import BuySellCatagory from './pages/BuySell/BuySellCatagory';
+import BuySellSubCatagory from './pages/BuySell/BuySellSubCatagory';
 
 function App() {
   const { pathname } = useLocation();
@@ -66,6 +68,30 @@ function App() {
                 <PageTitle title="Catagory" />
                 <ProtectedRoute>
                   <Catagory />
+                </ProtectedRoute>
+              </>
+            }
+          />
+
+          <Route
+            path="/buy-sell/buy-sell-catagory"
+            element={
+              <>
+                <PageTitle title="Buy-Catagory" />
+                <ProtectedRoute>
+                  <BuySellCatagory />
+                </ProtectedRoute>
+              </>
+            }
+          />
+
+          <Route
+            path="/buy-sell/sub-catagory"
+            element={
+              <>
+                <PageTitle title="sub-catagory" />
+                <ProtectedRoute>
+                  <BuySellSubCatagory />
                 </ProtectedRoute>
               </>
             }

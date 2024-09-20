@@ -4,6 +4,9 @@ import { MdOutlineCategory } from 'react-icons/md';
 import { AiOutlineCloudServer } from 'react-icons/ai';
 import { MdAddTask } from 'react-icons/md';
 import { MdBloodtype } from 'react-icons/md';
+import SidebarLinkGroup from './SidebarLinkGroup';
+import { IconBase } from 'react-icons/lib';
+import ArrowIcon from './ArrowIcon';
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -134,6 +137,83 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   Dashboard
                 </NavLink>
               </li>
+
+              <SidebarLinkGroup
+                activeCondition={
+                  pathname === '/buy-sell' || pathname.includes('buy-sell')
+                }
+              >
+                {(handleClick, open) => {
+                  return (
+                    <>
+                      <NavLink
+                        to="#"
+                        className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                          (pathname === '/buy-sell' ||
+                            pathname.includes('kyc')) &&
+                          'bg-graydark dark:bg-meta-4'
+                        }`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          sidebarExpanded
+                            ? handleClick()
+                            : setSidebarExpanded(true);
+                        }}
+                      >
+                        <MdOutlineCategory className="text-2xl" />
+                        Buy Sell
+                        <ArrowIcon open={open} />
+                      </NavLink>
+
+                      {/* <!-- Dropdown Menu Start --> */}
+                      <div
+                        className={`translate transform overflow-hidden ${
+                          !open && 'hidden'
+                        }`}
+                      >
+                        <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
+                          <li>
+                            <NavLink
+                              to="/buy-sell/buy-sell-catagory"
+                              className={({ isActive }) =>
+                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
+                                (isActive && '!text-white')
+                              }
+                            >
+                              Catagory
+                            </NavLink>
+                          </li>
+
+                          <li>
+                            <NavLink
+                              to="/buy-sell/sub-catagory"
+                              className={({ isActive }) =>
+                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
+                                (isActive && '!text-white')
+                              }
+                            >
+                              Sub Catagory
+                            </NavLink>
+                          </li>
+
+                          <li>
+                            <NavLink
+                              to="/buy-sell/product"
+                              className={({ isActive }) =>
+                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
+                                (isActive && '!text-white')
+                              }
+                            >
+                              Product
+                            </NavLink>
+                          </li>
+                        </ul>
+                      </div>
+                      {/* <!-- Dropdown Menu End --> */}
+                    </>
+                  );
+                }}
+              </SidebarLinkGroup>
 
               {/* <!-- Menu Item Profile --> */}
               <li>
