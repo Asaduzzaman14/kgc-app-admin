@@ -9,7 +9,7 @@ import { PuffLoader } from 'react-spinners';
 import Swal from 'sweetalert2';
 import { UpdateBSCatagoryModal } from './Modals/UpdateBSCatagoryModal';
 import axiosInstance from '../../utils/axiosConfig';
-import { AddCategory } from './AddCategory';
+import { AddCategory } from './Modals/AddCategory';
 
 const BuySellCatagory = () => {
   const [datas, setDatas] = useState<any>([]);

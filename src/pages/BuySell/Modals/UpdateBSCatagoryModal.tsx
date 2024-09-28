@@ -1,8 +1,7 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
 import { PuffLoader } from 'react-spinners';
-import { getKgcAdminToken } from '../../../hooks/handelAdminToken';
 import axiosInstance from '../../../utils/axiosConfig';
 
 interface IUpdatePackage {
@@ -17,8 +16,11 @@ export const UpdateBSCatagoryModal = ({
   updateItem,
 }: IUpdatePackage) => {
   const [lodaing, setLoading] = useState(false);
-  const [formState, setFormState] = useState({ ...updateItem });
+  const [formState, setFormState] = useState({});
   const { register, handleSubmit, control } = useForm<any>();
+  const [selectedMethod, setSelectedMethod] = useState<any>('');
+  const [selectedMethodId, setSelectedMethodId] = useState<any>('');
+  console.log(formState);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -26,14 +28,16 @@ export const UpdateBSCatagoryModal = ({
   };
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
-    setLoading(true);
+    // setLoading(true);
 
     const newData = {
       ...data,
-      id: updateItem?._id,
-      // status: data?.status?.value,
+      category: selectedMethodId,
     };
+    console.log(formState);
+    console.log(newData);
 
+    return;
     try {
       const response = await axiosInstance.patch(
         `/product-categorys/${updateItem._id}`,
@@ -48,6 +52,34 @@ export const UpdateBSCatagoryModal = ({
       });
     }
   };
+
+  const [catagory, setCatagory] = useState<any>();
+
+  const getServices = async () => {
+    try {
+      const response = await axiosInstance.get('/product-categorys');
+      setCatagory(response?.data?.data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  useEffect(() => {
+    getServices();
+  }, []);
+
+  const upSelect = (e: any) => {
+    const selectedCategory = catagory?.data?.find((cat: any) => cat._id === e);
+    if (selectedCategory) {
+      setSelectedMethod(selectedCategory.name);
+      setSelectedMethodId(e);
+    }
+  };
+
+  useEffect(() => {
+    setSelectedMethod(updateItem?.category?.name);
+    setSelectedMethodId(updateItem?.category?._id);
+  }, []);
 
   return (
     <div className="fixed left-0 top-0 z-999 flex h-full min-h-screen w-full items-center justify-center bg-black/90 py-5">
@@ -82,7 +114,7 @@ export const UpdateBSCatagoryModal = ({
                 <input
                   className="w-full rounded border border-stroke bg-gray py-3 pl-3 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                   {...register('name', { required: true })}
-                  value={formState.name}
+                  defaultValue={updateItem.name}
                   onChange={handleChange}
                 />
               </div>
@@ -91,12 +123,12 @@ export const UpdateBSCatagoryModal = ({
                 <input
                   className="w-full rounded border border-stroke bg-gray py-3 pl-3 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                   {...register('description', { required: true })}
-                  value={formState.description}
+                  defaultValue={updateItem.description}
                   onChange={handleChange}
                 />
               </div>
 
-              <div>
+              {/* <div>
                 <p>Image url</p>
                 <input
                   className="w-full rounded border border-stroke bg-gray py-3 pl-3 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
@@ -104,8 +136,8 @@ export const UpdateBSCatagoryModal = ({
                   value={formState.img}
                   onChange={handleChange}
                 />
-              </div>
-              <div>
+              </div> */}
+              {/* <div>
                 <p>Serial No</p>
                 <input
                   className="w-full rounded border border-stroke bg-gray py-3 pl-3 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
@@ -114,6 +146,34 @@ export const UpdateBSCatagoryModal = ({
                   value={formState.serialNo}
                   onChange={handleChange}
                 />
+              </div> */}
+
+              <div className="w-full">
+                <label
+                  className="mb-2 block text-sm font-medium text-black dark:text-white"
+                  htmlFor="type"
+                >
+                  Select Catagory: {updateItem?.category?.name}
+                </label>
+
+                <select
+                  onChange={(e: any) => upSelect(e?.target?.value)}
+                  value={'default'}
+                  className="py-3 ps-3 min-w-full text-black bg-transparent rounded-md border-2 border-boxdark-2 dark:border-boxdark-2dark dark:bg-meta-4 dark:focus:border-primary"
+                >
+                  <option value="default" disabled>
+                    {selectedMethod}
+                  </option>
+                  {catagory?.data?.map((method: any, i: any) => (
+                    <option
+                      className="text-black"
+                      key={method._id}
+                      value={method?._id}
+                    >
+                      {method.name}
+                    </option>
+                  ))}
+                </select>
               </div>
 
               <div className="flex justify-center gap-4">

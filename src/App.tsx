@@ -21,6 +21,7 @@ import ProtectedRoute from './hooks/ProtectedRoute';
 import Setting from './pages/Setting';
 import BuySellCatagory from './pages/BuySell/BuySellCatagory';
 import BuySellSubCatagory from './pages/BuySell/BuySellSubCatagory';
+import Product from './pages/BuySell/Product';
 
 function App() {
   const { pathname } = useLocation();
@@ -92,6 +93,18 @@ function App() {
                 <PageTitle title="sub-catagory" />
                 <ProtectedRoute>
                   <BuySellSubCatagory />
+                </ProtectedRoute>
+              </>
+            }
+          />
+
+          <Route
+            path="//buy-sell/product"
+            element={
+              <>
+                <PageTitle title="catagory" />
+                <ProtectedRoute>
+                  <Product />
                 </ProtectedRoute>
               </>
             }

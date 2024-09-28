@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
 import { PuffLoader } from 'react-spinners';
@@ -10,17 +10,14 @@ interface IUpdatePackage {
   updateItem: any | any;
 }
 
-export const UpdateSubCatagoryModal = ({
+export const UpdateProductModal = ({
   fetchData,
   closeModal,
   updateItem,
 }: IUpdatePackage) => {
   const [lodaing, setLoading] = useState(false);
-  const [formState, setFormState] = useState<any>({});
+  const [formState, setFormState] = useState({ ...updateItem });
   const { register, handleSubmit, control } = useForm<any>();
-  const [selectedMethod, setSelectedMethod] = useState<any>('');
-  const [selectedMethodId, setSelectedMethodId] = useState<any>('');
-  console.log(formState);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -28,22 +25,21 @@ export const UpdateSubCatagoryModal = ({
   };
 
   const onSubmit: SubmitHandler<any> = async (data: any) => {
-    // setLoading(true);
-    if (selectedMethodId) {
-      formState.category = selectedMethodId;
-    }
+    setLoading(true);
+
+    const newData = {
+      ...data,
+      id: updateItem?._id,
+      // status: data?.status?.value,
+    };
+
     try {
-      const { data } = await axiosInstance.patch(
-        `/sub-categorys/${updateItem._id}`,
-        formState,
+      const response = await axiosInstance.patch(
+        `/product/${updateItem._id}`,
+        newData,
       );
-      if (data.data.statusCode === 200) {
-        Swal.fire({
-          title: 'Success',
-          text: 'updated Success',
-          icon: 'success',
-        });
-      }
+      console.log(response);
+      fetchData();
     } catch (error) {
       Swal.fire({
         title: 'error',
@@ -52,34 +48,6 @@ export const UpdateSubCatagoryModal = ({
       });
     }
   };
-
-  const [catagory, setCatagory] = useState<any>();
-
-  const getServices = async () => {
-    try {
-      const response = await axiosInstance.get('/product-categorys');
-      setCatagory(response?.data?.data);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
-
-  useEffect(() => {
-    getServices();
-  }, []);
-
-  const upSelect = (e: any) => {
-    const selectedCategory = catagory?.data?.find((cat: any) => cat._id === e);
-    if (selectedCategory) {
-      setSelectedMethod(selectedCategory.name);
-      setSelectedMethodId(e);
-    }
-  };
-
-  useEffect(() => {
-    setSelectedMethod(updateItem?.category?.name);
-    setSelectedMethodId(updateItem?.category?._id);
-  }, []);
 
   return (
     <div className="fixed left-0 top-0 z-999 flex h-full min-h-screen w-full items-center justify-center bg-black/90 py-5">
@@ -114,7 +82,7 @@ export const UpdateSubCatagoryModal = ({
                 <input
                   className="w-full rounded border border-stroke bg-gray py-3 pl-3 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                   {...register('name', { required: true })}
-                  defaultValue={updateItem.name}
+                  value={formState.name}
                   onChange={handleChange}
                 />
               </div>
@@ -123,12 +91,12 @@ export const UpdateSubCatagoryModal = ({
                 <input
                   className="w-full rounded border border-stroke bg-gray py-3 pl-3 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                   {...register('description', { required: true })}
-                  defaultValue={updateItem.description}
+                  value={formState.description}
                   onChange={handleChange}
                 />
               </div>
 
-              {/* <div>
+              <div>
                 <p>Image url</p>
                 <input
                   className="w-full rounded border border-stroke bg-gray py-3 pl-3 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
@@ -136,8 +104,8 @@ export const UpdateSubCatagoryModal = ({
                   value={formState.img}
                   onChange={handleChange}
                 />
-              </div> */}
-              {/* <div>
+              </div>
+              <div>
                 <p>Serial No</p>
                 <input
                   className="w-full rounded border border-stroke bg-gray py-3 pl-3 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
@@ -146,34 +114,6 @@ export const UpdateSubCatagoryModal = ({
                   value={formState.serialNo}
                   onChange={handleChange}
                 />
-              </div> */}
-
-              <div className="w-full">
-                <label
-                  className="mb-2 block text-sm font-medium text-black dark:text-white"
-                  htmlFor="type"
-                >
-                  Select Catagory: {updateItem?.category?.name}
-                </label>
-
-                <select
-                  onChange={(e: any) => upSelect(e?.target?.value)}
-                  value={'default'}
-                  className="py-3 ps-3 min-w-full text-black bg-transparent rounded-md border-2 border-boxdark-2 dark:border-boxdark-2dark dark:bg-meta-4 dark:focus:border-primary"
-                >
-                  <option value="default" disabled>
-                    {selectedMethod}
-                  </option>
-                  {catagory?.data?.map((method: any, i: any) => (
-                    <option
-                      className="text-black"
-                      key={method._id}
-                      value={method?._id}
-                    >
-                      {method.name}
-                    </option>
-                  ))}
-                </select>
               </div>
 
               <div className="flex justify-center gap-4">
