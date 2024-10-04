@@ -6,7 +6,7 @@ import axiosInstance from '../../../utils/axiosConfig';
 import InputField from '../../../components/InputField';
 
 export type ICatagory = {
-  img?: any;
+  icon?: any;
   description?: string;
   name: string;
   serialNo: number;
@@ -22,12 +22,12 @@ export const AddCategory = ({ fetchData, closeModal }: IUpdatePackage) => {
 
   const onSubmit: SubmitHandler<ICatagory> = async (event: ICatagory) => {
     setLoading(true);
-    event.serialNo = 999;
+    event.serialNo = 9999;
     const obj = { ...event };
 
-    const img = obj['img'];
+    const img = obj['icon'];
 
-    delete obj['img'];
+    delete obj['icon'];
 
     const wrappedObj = { data: obj };
 
@@ -35,12 +35,8 @@ export const AddCategory = ({ fetchData, closeModal }: IUpdatePackage) => {
 
     const formData = new FormData();
 
-    formData.append('img', img[0] as Blob);
+    formData.append('icon', img[0] as Blob);
     formData.append('data', data);
-
-    for (let pair of formData.entries()) {
-      console.log(`${pair[0]}:`, pair[1]);
-    }
 
     try {
       const response = await axiosInstance.post(
@@ -122,7 +118,7 @@ export const AddCategory = ({ fetchData, closeModal }: IUpdatePackage) => {
               <InputField
                 type="file"
                 label="Image/icon"
-                name="img"
+                name="icon"
                 register={register}
                 required
               />

@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react';
 import DefaultLayout from '../../layout/DefaultLayout';
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
+import axios from 'axios';
 import { formatToLocalDate } from '../../hooks/formatDate';
+import { getKgcAdminToken } from '../../hooks/handelAdminToken';
 import { ICatagory } from '../../types/packages';
 import { PuffLoader } from 'react-spinners';
 import Swal from 'sweetalert2';
+import { UpdateBSCatagoryModal } from './Modals/UpdateBSCatagoryModal';
 import axiosInstance from '../../utils/axiosConfig';
+import { AddCategory } from './Modals/AddCategory';
 import { AddSubCategors } from './Modals/AddSubCategors';
 import { UpdateSubCatagoryModal } from './Modals/UpdateSubCatagoryModal';
 

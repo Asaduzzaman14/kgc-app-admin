@@ -6,7 +6,7 @@ type IStatus =
   | any;
 
 export type ICatagory = {
-  img?: string | null;
+  icon?: string | null;
   description?: string;
   name?: string;
   serialNo: number;

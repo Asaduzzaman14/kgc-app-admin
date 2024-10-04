@@ -33,12 +33,11 @@ const BuySellCatagory = () => {
     setAddCatagoryModal(false);
   };
 
-  const token = getKgcAdminToken();
-
   const fetchData = async () => {
     setLoading(true);
     try {
       const response = await axiosInstance.get('/product-categorys');
+
       setLoading(false);
 
       if (response?.data?.success) {
@@ -152,7 +151,7 @@ const BuySellCatagory = () => {
                     <p className="text-black dark:text-white">
                       <img
                         className="w-15 h-15"
-                        src={packageItem?.img}
+                        src={packageItem?.icon}
                         alt=""
                       />
                     </p>

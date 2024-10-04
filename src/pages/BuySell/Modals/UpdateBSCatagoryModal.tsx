@@ -3,6 +3,8 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
 import { PuffLoader } from 'react-spinners';
 import axiosInstance from '../../../utils/axiosConfig';
+import { ICatagory } from './AddCategory';
+import InputField from '../../../components/InputField';
 
 interface IUpdatePackage {
   fetchData: () => void;
@@ -16,34 +18,54 @@ export const UpdateBSCatagoryModal = ({
   updateItem,
 }: IUpdatePackage) => {
   const [lodaing, setLoading] = useState(false);
-  const [formState, setFormState] = useState({});
+  const [formState, setFormState] = useState<any>({});
   const { register, handleSubmit, control } = useForm<any>();
   const [selectedMethod, setSelectedMethod] = useState<any>('');
   const [selectedMethodId, setSelectedMethodId] = useState<any>('');
-  console.log(formState);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormState({ ...formState, [name]: value });
   };
 
-  const onSubmit: SubmitHandler<any> = async (data: any) => {
-    // setLoading(true);
+  const onSubmit: SubmitHandler<ICatagory> = async (event: ICatagory) => {
+    setLoading(true);
+    const obj = { ...event };
 
-    const newData = {
-      ...data,
-      category: selectedMethodId,
-    };
-    console.log(formState);
-    console.log(newData);
+    const img = obj['icon'];
 
-    return;
+    delete obj['icon'];
+
+    const wrappedObj = { data: obj };
+
+    const data = JSON.stringify(wrappedObj);
+
+    const formData = new FormData();
+
+    formData.append('icon', img[0] as Blob);
+    formData.append('data', data);
+
     try {
       const response = await axiosInstance.patch(
         `/product-categorys/${updateItem._id}`,
-        newData,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        },
       );
-      console.log(response);
+      setLoading(false);
+      if (response?.data?.success) {
+        fetchData();
+        Swal.fire({
+          title: 'success',
+          text: 'Successfully data updated',
+          icon: 'success',
+        }).then(() => {
+          closeModal();
+        });
+      }
     } catch (error) {
       Swal.fire({
         title: 'error',
@@ -127,17 +149,14 @@ export const UpdateBSCatagoryModal = ({
                   onChange={handleChange}
                 />
               </div>
-
-              {/* <div>
-                <p>Image url</p>
-                <input
-                  className="w-full rounded border border-stroke bg-gray py-3 pl-3 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                  {...register('img', { required: true })}
-                  value={formState.img}
-                  onChange={handleChange}
-                />
-              </div> */}
-              {/* <div>
+              <InputField
+                type="file"
+                label="Image/icon"
+                name="icon"
+                register={register}
+                required
+              />
+              <div>
                 <p>Serial No</p>
                 <input
                   className="w-full rounded border border-stroke bg-gray py-3 pl-3 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
@@ -146,7 +165,7 @@ export const UpdateBSCatagoryModal = ({
                   value={formState.serialNo}
                   onChange={handleChange}
                 />
-              </div> */}
+              </div>
 
               <div className="w-full">
                 <label

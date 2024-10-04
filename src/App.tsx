@@ -102,7 +102,7 @@ function App() {
             path="//buy-sell/product"
             element={
               <>
-                <PageTitle title="catagory" />
+                <PageTitle title="product" />
                 <ProtectedRoute>
                   <Product />
                 </ProtectedRoute>
