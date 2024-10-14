@@ -61,7 +61,7 @@ const Product = () => {
       if (result.isConfirmed) {
         try {
           setDeleteLoading(true);
-          const response = await axiosInstance.delete(`/product/${id}`);
+          const response = await axiosInstance.delete(`/products/${id}`);
           fetchData();
           setDeleteLoading(false);
           if (response.data.success) {

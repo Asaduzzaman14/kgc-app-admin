@@ -31,6 +31,7 @@ export const AddSubCategors = ({ fetchData, closeModal }: IUpdatePackage) => {
 
     try {
       const response = await axiosInstance.post(`/sub-categorys`, event);
+      console.log(response);
 
       setLoading(false);
       if (response?.data?.success) {

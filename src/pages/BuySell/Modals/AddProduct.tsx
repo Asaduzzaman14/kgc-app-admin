@@ -13,10 +13,15 @@ export type IProduct = {
   price: string;
   discountPrice: string;
   category: string;
-  subCategory: string;
+  // subCategory: string;
+
+  categoryId: string;
+  subCategoryId: string;
+
   serialNo?: number;
   img?: string;
   img2?: string;
+  img3?: string;
 };
 
 interface IUpdatePackage {
@@ -30,11 +35,13 @@ export const AddProduct = ({ fetchData, closeModal }: IUpdatePackage) => {
 
   const onSubmit: SubmitHandler<IProduct> = async (event: IProduct) => {
     //  setLoading(true);
+    console.log(event);
 
     const obj = { ...event };
 
     const img = obj['img'];
     const img2 = obj['img2'];
+    const img3 = obj['img3'];
 
     const formData = new FormData();
     formData.append('name', obj.name);
@@ -43,7 +50,10 @@ export const AddProduct = ({ fetchData, closeModal }: IUpdatePackage) => {
     formData.append('brand', obj.brand);
     formData.append('price', obj.price);
     formData.append('discountPrice', obj.discountPrice || '0');
-    formData.append('category', obj.category);
+
+    formData.append('subCategoryId', obj.subCategoryId);
+    formData.append('categoryId', obj.categoryId);
+
     formData.append('serialNo', '999');
 
     if (img) {
@@ -51,6 +61,9 @@ export const AddProduct = ({ fetchData, closeModal }: IUpdatePackage) => {
     }
     if (img2) {
       formData.append('img2', img2[0]);
+    }
+    if (img3) {
+      formData.append('img3', img3[0]);
     }
     for (let pair of formData.entries()) {
       console.log(`${pair[0]}:`, pair[1]);
@@ -61,7 +74,6 @@ export const AddProduct = ({ fetchData, closeModal }: IUpdatePackage) => {
           'Content-Type': 'multipart/form-data',
         },
       });
-      console.log(response);
 
       setLoading(false);
       if (response?.data?.success) {
@@ -189,6 +201,14 @@ export const AddProduct = ({ fetchData, closeModal }: IUpdatePackage) => {
                 required
               />
 
+              <InputField
+                type="file"
+                label="Image/icon"
+                name="img3"
+                register={register}
+                required
+              />
+
               <div className="w-full xl:w-1/2">
                 <label
                   className="mb-2 block text-sm font-medium text-black dark:text-white"
@@ -199,7 +219,7 @@ export const AddProduct = ({ fetchData, closeModal }: IUpdatePackage) => {
 
                 <select
                   id="category"
-                  {...register('category', { required: true })}
+                  {...register('categoryId', { required: true })}
                   onClick={(e: any) => setSelectedMethod(e?.target?.value)}
                   className="py-3 ps-3 w-full text-black bg-transparent rounded-md border-2 border-boxdark-2 dark:border-boxdark-2dark dark:bg-meta-4 dark:focus:border-primary"
                 >
@@ -226,7 +246,7 @@ export const AddProduct = ({ fetchData, closeModal }: IUpdatePackage) => {
 
                 <select
                   id="subCategory"
-                  {...register('subCategory', { required: true })}
+                  {...register('subCategoryId', { required: true })}
                   onClick={(e: any) => setSelectedSubCatagory(e?.target?.value)}
                   className="py-3 ps-3 w-full text-black bg-transparent rounded-md border-2 border-boxdark-2 dark:border-boxdark-2dark dark:bg-meta-4 dark:focus:border-primary"
                 >
