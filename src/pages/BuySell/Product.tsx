@@ -114,11 +114,16 @@ const Product = () => {
                   SL NO
                 </th>
                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
-                  Image
+                  Email
                 </th>
-
                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
-                  User
+                  image1
+                </th>
+                <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
+                  image2
+                </th>
+                <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
+                  image3
                 </th>
                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
                   Name
@@ -160,6 +165,24 @@ const Product = () => {
                       <img
                         className="w-15 h-15"
                         src={packageItem?.img}
+                        alt=""
+                      />
+                    </p>
+                  </td>
+                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                    <p className="text-black dark:text-white">
+                      <img
+                        className="w-15 h-15"
+                        src={packageItem?.img2}
+                        alt=""
+                      />
+                    </p>
+                  </td>
+                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                    <p className="text-black dark:text-white">
+                      <img
+                        className="w-15 h-15"
+                        src={packageItem?.img3}
                         alt=""
                       />
                     </p>

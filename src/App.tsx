@@ -99,7 +99,7 @@ function App() {
           />
 
           <Route
-            path="//buy-sell/product"
+            path="/buy-sell/product"
             element={
               <>
                 <PageTitle title="product" />
