@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import axiosInstance from '../../utils/axiosConfig';
 import { AddProduct } from './Modals/AddProduct';
 import { UpdateProductModal } from './Modals/UpdateProductModal';
+import PaginationButtons from '../../components/PaginationButtons';
 
 const Product = () => {
   const [datas, setDatas] = useState<any>([]);
@@ -17,6 +18,17 @@ const Product = () => {
   const [addCatagoryModal, setAddCatagoryModal] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [updateItem, setUpdateItem] = useState<any>();
+  const [meta, setMeta] = useState({
+    total: 1,
+    page: 1,
+    limit: 1,
+  });
+
+  const [search, setSearch] = useState('');
+
+  // pagination calculate
+  const [currentPage, setCurrentPage] = useState(0);
+  const [perPage, setparePage] = useState(25);
 
   const openModal = (data: ICatagory) => {
     setUpdateItem(data);
@@ -34,20 +46,25 @@ const Product = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await axiosInstance.get('/products');
+      const response = await axiosInstance.get(
+        `/products?page=${currentPage + 1}&limit=${perPage}`,
+      );
       setLoading(false);
 
       if (response?.data?.success) {
         setDatas(response?.data);
+        setMeta(response?.data?.data?.meta);
       }
     } catch (error) {
+      setLoading(false);
+
       console.error('Error fetching data:', error);
     }
   };
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [currentPage]);
   const deleteCategory = async (id: string) => {
     Swal.fire({
       title: 'Are you sure?',
@@ -136,6 +153,14 @@ const Product = () => {
                 </th>
 
                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
+                  Category
+                </th>
+
+                <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
+                  Sub Category
+                </th>
+
+                <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
                   Updated
                 </th>
 
@@ -203,6 +228,17 @@ const Product = () => {
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p className="text-black dark:text-white">
                       {packageItem?.desc}
+                    </p>
+                  </td>
+
+                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                    <p className="text-black dark:text-white">
+                      {packageItem?.categoryId?.name}
+                    </p>
+                  </td>
+                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                    <p className="text-black dark:text-white">
+                      {packageItem?.categoryId?.name}
                     </p>
                   </td>
 
@@ -300,6 +336,13 @@ const Product = () => {
           {loading && (
             <PuffLoader className="mx-auto" color="#00ddff" size={40} />
           )}
+        </div>
+        <div className="my-4">
+          <PaginationButtons
+            totalPages={Math?.ceil(meta?.total / perPage)}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
         </div>
       </div>
       <div>

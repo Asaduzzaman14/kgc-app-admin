@@ -6,6 +6,7 @@ import Button from '../Ui/Button';
 import DefaultLayout from '../layout/DefaultLayout';
 import { getKgcAdminToken } from '../hooks/handelAdminToken';
 import Text from './Text';
+import ProductText from './ProductText';
 
 type INotice = {
   notice?: string;
@@ -136,6 +137,7 @@ const Setting = () => {
               placeholder="Notice"
               className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
               defaultValue={notice && notice[0]?.notice}
+              cols={30}
             />
           </div>
 
@@ -145,8 +147,9 @@ const Setting = () => {
             <Button cs="px-10 my-5 bg-primary" btnName="Submit" />
           )}
         </form>
-      </div>{' '}
+      </div>
       <Text />
+      <ProductText />
     </DefaultLayout>
   );
 };
