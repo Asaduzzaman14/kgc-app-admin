@@ -146,7 +146,10 @@ const Product = () => {
                   Name
                 </th>
                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
-                  Title
+                  product Status
+                </th>
+                <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
+                  Phone
                 </th>
                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
                   Description
@@ -221,7 +224,16 @@ const Product = () => {
 
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p className="text-black dark:text-white">
-                      {packageItem?.title}
+                      {packageItem?.isUsed == null
+                        ? 'n/a'
+                        : packageItem.isUsed
+                        ? 'used'
+                        : 'New'}
+                    </p>
+                  </td>
+                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                    <p className="text-black dark:text-white">
+                      {packageItem?.phone}
                     </p>
                   </td>
 

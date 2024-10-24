@@ -4,16 +4,18 @@ import Swal from 'sweetalert2';
 import { PuffLoader } from 'react-spinners';
 import axiosInstance from '../../../utils/axiosConfig';
 import InputField from '../../../components/InputField';
+import SelectOptions from '../../../Ui/SelectOptions';
 
 export type IProduct = {
   name: string;
-  title: string;
   desc: string;
   brand: string;
   price: string;
   discountPrice: string;
   category: string;
-  // subCategory: string;
+
+  phone: string;
+  isUsed: boolean | any;
 
   categoryId: string;
   subCategoryId: string;
@@ -31,7 +33,7 @@ interface IUpdatePackage {
 
 export const AddProduct = ({ fetchData, closeModal }: IUpdatePackage) => {
   const [lodaing, setLoading] = useState(false);
-  const { register, handleSubmit } = useForm<IProduct>();
+  const { register, handleSubmit, control } = useForm<IProduct>();
 
   const onSubmit: SubmitHandler<IProduct> = async (event: IProduct) => {
     //  setLoading(true);
@@ -45,10 +47,15 @@ export const AddProduct = ({ fetchData, closeModal }: IUpdatePackage) => {
 
     const formData = new FormData();
     formData.append('name', obj.name);
-    formData.append('title', obj.title);
     formData.append('desc', obj.desc);
     formData.append('brand', obj.brand);
+
     formData.append('price', obj.price);
+    formData.append('phone', obj.phone);
+    if ((obj.isUsed.value! = null)) {
+      formData.append('isUsed', obj.isUsed.value);
+    }
+
     formData.append('discountPrice', obj.discountPrice || '0');
 
     formData.append('subCategoryId', obj.subCategoryId);
@@ -118,6 +125,12 @@ export const AddProduct = ({ fetchData, closeModal }: IUpdatePackage) => {
     (ct: any) => ct._id == selectedMethod,
   );
 
+  const options = [
+    { value: null, label: 'N/A' },
+    { value: true, label: 'used' },
+    { value: false, label: 'new product' },
+  ];
+
   return (
     <div className="fixed left-0 top-0 z-999 flex h-full min-h-screen w-full items-center justify-center bg-black/90 py-5">
       <div
@@ -157,14 +170,6 @@ export const AddProduct = ({ fetchData, closeModal }: IUpdatePackage) => {
 
               <InputField
                 type="text"
-                label="title"
-                name="title"
-                register={register}
-                required
-              />
-
-              <InputField
-                type="text"
                 label="desc"
                 name="desc"
                 register={register}
@@ -183,6 +188,23 @@ export const AddProduct = ({ fetchData, closeModal }: IUpdatePackage) => {
                 name="brand"
                 register={register}
                 required
+              />
+
+              <InputField
+                type="text"
+                label="Phone"
+                name="phone"
+                register={register}
+                required
+              />
+
+              <SelectOptions
+                control={control}
+                options={options}
+                label="Product type"
+                name="isUsed"
+                defaultValue={1}
+                placeholder={'Select...'}
               />
 
               <InputField
