@@ -224,11 +224,7 @@ const Product = () => {
 
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p className="text-black dark:text-white">
-                      {packageItem?.isUsed == null
-                        ? 'n/a'
-                        : packageItem.isUsed
-                        ? 'used'
-                        : 'New'}
+                      {packageItem?.isUsed}
                     </p>
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
