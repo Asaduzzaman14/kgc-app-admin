@@ -52,9 +52,7 @@ export const AddProduct = ({ fetchData, closeModal }: IUpdatePackage) => {
 
     formData.append('price', obj.price);
     formData.append('phone', obj.phone);
-    if ((obj.isUsed.value! = null)) {
-      formData.append('isUsed', obj.isUsed.value);
-    }
+    formData.append('isUsed', obj.isUsed.value);
 
     formData.append('discountPrice', obj.discountPrice || '0');
 
@@ -126,9 +124,9 @@ export const AddProduct = ({ fetchData, closeModal }: IUpdatePackage) => {
   );
 
   const options = [
-    { value: null, label: 'N/A' },
-    { value: true, label: 'used' },
-    { value: false, label: 'new product' },
+    { value: 'n/a', label: 'N/A' },
+    { value: 'used', label: 'used' },
+    { value: 'new', label: 'new' },
   ];
 
   return (
