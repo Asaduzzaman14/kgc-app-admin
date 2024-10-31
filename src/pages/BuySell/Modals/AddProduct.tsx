@@ -7,6 +7,7 @@ import InputField from '../../../components/InputField';
 import SelectOptions from '../../../Ui/SelectOptions';
 
 export type IProduct = {
+  _id: string;
   name: string;
   desc: string;
   brand: string;
@@ -17,13 +18,14 @@ export type IProduct = {
   phone: string;
   isUsed: boolean | any;
 
-  categoryId: string;
-  subCategoryId: string;
+  categoryId: string | any;
+  subCategoryId: string | any;
 
   serialNo?: number;
   img?: string;
   img2?: string;
   img3?: string;
+  status: string;
 };
 
 interface IUpdatePackage {

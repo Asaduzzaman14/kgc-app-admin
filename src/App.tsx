@@ -43,9 +43,10 @@ function App() {
             index
             element={
               <>
-                <PageTitle title="SignIn" />
-
-                <SignIn />
+                <PageTitle title="KGC ADMIN" />
+                <ProtectedRoute>
+                  <BizTokenDashboard />
+                </ProtectedRoute>
               </>
             }
           />

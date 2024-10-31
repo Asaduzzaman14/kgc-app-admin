@@ -5,7 +5,9 @@ const ProtectedRoute = ({ children }: any) => {
   const location = useLocation();
   const token = getKgcAdminToken();
   if (!token) {
-    return <Navigate to="/" state={{ from: location }} replace></Navigate>;
+    return (
+      <Navigate to="/auth/signin" state={{ from: location }} replace></Navigate>
+    );
   }
 
   return children;

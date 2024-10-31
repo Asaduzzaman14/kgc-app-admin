@@ -168,6 +168,10 @@ const Product = () => {
                 </th>
 
                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
+                  Status
+                </th>
+
+                <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
                   Action
                 </th>
               </tr>
@@ -227,6 +231,7 @@ const Product = () => {
                       {packageItem?.isUsed}
                     </p>
                   </td>
+
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p className="text-black dark:text-white">
                       {packageItem?.phone}
@@ -235,7 +240,7 @@ const Product = () => {
 
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p className="text-black dark:text-white">
-                      {packageItem?.desc}
+                      {packageItem?.desc.slice(0, 33) + '...'}
                     </p>
                   </td>
 
@@ -246,13 +251,19 @@ const Product = () => {
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p className="text-black dark:text-white">
-                      {packageItem?.categoryId?.name}
+                      {packageItem?.subCategoryId?.name}
                     </p>
                   </td>
 
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p className="text-black dark:text-white">
                       {formatToLocalDate(packageItem.updatedAt)}
+                    </p>
+                  </td>
+
+                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                    <p className="text-black dark:text-white">
+                      {packageItem?.status}
                     </p>
                   </td>
 
