@@ -52,41 +52,43 @@ const BizTokenDashboard: React.FC = () => {
     );
   }, []);
   return (
-    <DefaultLayout>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-        <Link to={'/'}>
-          <CardDataStats
-            title="All Catagory"
-            total={`${datas?.data?.length ? datas?.data?.length : '0'}`}
-          >
-            <PiPackage className="text-2xl dark:text-white text-primary" />
-          </CardDataStats>
-        </Link>
+    <>
+      <DefaultLayout>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
+          <Link to={'/'}>
+            <CardDataStats
+              title="All Catagory"
+              total={`${datas?.data?.length ? datas?.data?.length : '0'}`}
+            >
+              <PiPackage className="text-2xl dark:text-white text-primary" />
+            </CardDataStats>
+          </Link>
 
-        <Link to={'/'}>
-          <CardDataStats
-            title="All  Services"
-            total={`${services ? services?.data?.length : '00'}  `}
-          >
-            <UserIcon />
-          </CardDataStats>
-        </Link>
+          <Link to={'/'}>
+            <CardDataStats
+              title="All  Services"
+              total={`${services ? services?.data?.length : '00'}  `}
+            >
+              <UserIcon />
+            </CardDataStats>
+          </Link>
 
-        <Link to={'/'}>
-          <CardDataStats
-            title="All Users"
-            total={`${users?.data?.length ? users?.data?.length : '00'}`}
-          >
-            <UserIcon />
-          </CardDataStats>
-        </Link>
-      </div>
+          <Link to={'/'}>
+            <CardDataStats
+              title="All Users"
+              total={`${users?.data?.length ? users?.data?.length : '00'}`}
+            >
+              <UserIcon />
+            </CardDataStats>
+          </Link>
+        </div>
 
-      <div className="mt-5">
-        {/* <LastestDeposits /> */}
-        <div className="mt-5">{/* <LatestPurchaseHistory /> */}</div>
-      </div>
-    </DefaultLayout>
+        <div className="mt-5">
+          {/* <LastestDeposits /> */}
+          <div className="mt-5">{/* <LatestPurchaseHistory /> */}</div>
+        </div>
+      </DefaultLayout>
+    </>
   );
 };
 

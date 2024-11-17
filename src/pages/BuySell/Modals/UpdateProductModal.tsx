@@ -37,7 +37,7 @@ export const UpdateProductModal = ({
       price: updateItem?.price || '0',
       brand: updateItem?.brand || 'Default Brand',
       phone: updateItem?.phone || '1234567890',
-      isUsed: updateItem?.isUsed || 'n/a',
+      isUsed: updateItem?.isUsed,
       categoryId: updateItem?.categoryId._id || '',
       subCategoryId: updateItem?.subCategoryId._id || '',
     },

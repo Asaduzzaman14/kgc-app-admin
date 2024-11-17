@@ -16,7 +16,7 @@ export type IProduct = {
   category: string;
 
   phone: string;
-  isUsed: boolean | any;
+  isUsed: string | any;
 
   categoryId: string | any;
   subCategoryId: string | any;
