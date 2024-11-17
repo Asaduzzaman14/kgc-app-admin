@@ -174,9 +174,9 @@ export const UpdateProductModal = ({
               <SelectOptions
                 control={control}
                 options={[
-                  { value: 'n/a', label: 'N/A' },
-                  { value: 'used', label: 'Used' },
-                  { value: 'new', label: 'New' },
+                  { value: 'N/A', label: 'N/A' },
+                  { value: 'Used', label: 'Used' },
+                  { value: 'New', label: 'New' },
                 ]}
                 label="Product Type"
                 name="isUsed"

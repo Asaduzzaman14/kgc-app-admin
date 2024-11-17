@@ -126,9 +126,9 @@ export const AddProduct = ({ fetchData, closeModal }: IUpdatePackage) => {
   );
 
   const options = [
-    { value: 'n/a', label: 'N/A' },
-    { value: 'used', label: 'used' },
-    { value: 'new', label: 'new' },
+    { value: 'N/A', label: 'N/A' },
+    { value: 'Used', label: 'Used' },
+    { value: 'New', label: 'New' },
   ];
 
   return (
