@@ -37,7 +37,12 @@ export const UpdateProductModal = ({
       price: updateItem?.price || '0',
       brand: updateItem?.brand || 'Default Brand',
       phone: updateItem?.phone || '1234567890',
-      isUsed: updateItem?.isUsed,
+
+      img: updateItem?.img || '',
+      img2: updateItem?.img2 || '',
+      img3: updateItem?.img3 || '',
+
+      isUsed: 1,
       categoryId: updateItem?.categoryId._id || '',
       subCategoryId: updateItem?.subCategoryId._id || '',
     },
@@ -99,6 +104,11 @@ export const UpdateProductModal = ({
       setLoading(false);
     }
   };
+  const options = [
+    { value: 'N/A', label: 'N/A' },
+    { value: 'Used', label: 'Used' },
+    { value: 'New', label: 'New' },
+  ];
 
   return (
     <div className="fixed left-0 top-0 z-999 flex h-full min-h-screen w-full items-center justify-center bg-black/90 py-5">
@@ -170,35 +180,44 @@ export const UpdateProductModal = ({
                   handleFieldChange('phone', e.target.value)
                 }
               />
-
+              {/* 
               <SelectOptions
                 control={control}
-                options={[
-                  { value: 'N/A', label: 'N/A' },
-                  { value: 'Used', label: 'Used' },
-                  { value: 'New', label: 'New' },
-                ]}
+                options={options}
                 label="Product Type"
                 name="isUsed"
-                defaultValue={updateItem.isUsed}
+                defaultValue={0}
                 placeholder="Select..."
                 onChange={(value: any) =>
                   handleFieldChange('isUsed', value.value)
                 }
-              />
+              /> */}
+              <div>
+                <p>Status</p>
+                <select
+                  className="w-full rounded border border-stroke bg-gray py-3 pl-3 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                  {...register('isUsed')}
+                  // defaultValue={options[2]?.value} // Set default value to the value of index 2
+                  onChange={(e) => handleFieldChange('isUsed', e.target.value)}
+                >
+                  {options.map((option, index) => (
+                    <option key={index} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-              {['img', 'img2', 'img3'].map((field) => (
-                <InputField
-                  key={field}
-                  type="file"
-                  label="Image/Icon"
-                  name={field}
-                  register={register}
-                  onChange={(e: { target: { files: any } }) =>
-                    handleFieldChange(field as keyof IProduct, e.target.files)
-                  }
-                />
-              ))}
+              <InputField
+                type="file"
+                label="img"
+                name="img"
+                register={register}
+                required
+                onChange={(e: { target: { value: any } }) =>
+                  handleFieldChange('img', e.target.value)
+                }
+              />
 
               <select
                 {...register('categoryId', {
@@ -222,7 +241,6 @@ export const UpdateProductModal = ({
                   </option>
                 ))}
               </select>
-
               {(selectedCategory || updateItem?.categoryId?._id) && (
                 <select
                   {...register('subCategoryId', {
@@ -249,7 +267,6 @@ export const UpdateProductModal = ({
                     ))}
                 </select>
               )}
-
               <SelectOptions
                 control={control}
                 options={[
@@ -265,7 +282,6 @@ export const UpdateProductModal = ({
                   handleFieldChange('status', value.value)
                 }
               />
-
               <div className="flex justify-center gap-4">
                 {loading ? (
                   <PuffLoader className="mx-auto" color="#36d7b7" size={40} />

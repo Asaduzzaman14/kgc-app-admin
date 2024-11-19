@@ -203,7 +203,7 @@ export const AddProduct = ({ fetchData, closeModal }: IUpdatePackage) => {
                 options={options}
                 label="Product type"
                 name="isUsed"
-                defaultValue={1}
+                defaultValue={0}
                 placeholder={'Select...'}
               />
 
