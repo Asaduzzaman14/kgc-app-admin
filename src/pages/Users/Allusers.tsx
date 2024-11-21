@@ -5,6 +5,7 @@ import axios from 'axios';
 import { getKgcAdminToken } from '../../hooks/handelAdminToken';
 import { ICatagory } from '../../types/packages';
 import Swal from 'sweetalert2';
+import { formatToLocalDate } from '../../hooks/formatDate';
 
 const Allusers = () => {
   const [datas, setDatas] = useState<any>([]);
@@ -118,7 +119,14 @@ const Allusers = () => {
                 </th>
 
                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
+                  Date
+                </th>
+
+                <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
                   Name
+                </th>
+                <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
+                  image
                 </th>
                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
                   Email
@@ -147,8 +155,18 @@ const Allusers = () => {
 
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p className="text-black dark:text-white">
+                      {formatToLocalDate(packageItem?.createdAt)}
+                    </p>
+                  </td>
+
+                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                    <p className="text-black dark:text-white">
                       {packageItem?.name}
                     </p>
+                  </td>
+
+                  <td className="border-b w-40 h-40 border-[#eee] py-5 px-4 dark:border-strokedark">
+                    <img src={packageItem?.image} alt="" />
                   </td>
 
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">

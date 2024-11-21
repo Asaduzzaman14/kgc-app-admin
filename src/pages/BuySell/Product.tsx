@@ -184,7 +184,6 @@ const Product = () => {
                       {key + 1}
                     </h5>
                   </td>
-
                   <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
                     <h5 className="font-medium text-black dark:text-white">
                       {packageItem?.userId?.email}
@@ -219,31 +218,26 @@ const Product = () => {
                       />
                     </p>
                   </td>
-
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p className="text-black dark:text-white">
                       {packageItem?.name}
                     </p>
                   </td>
-
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p className="text-black dark:text-white">
                       {packageItem?.isUsed}
                     </p>
                   </td>
-
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p className="text-black dark:text-white">
                       {packageItem?.phone}
                     </p>
                   </td>
-
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p className="text-black dark:text-white">
                       {packageItem?.desc.slice(0, 33) + '...'}
                     </p>
                   </td>
-
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p className="text-black dark:text-white">
                       {packageItem?.categoryId?.name}
@@ -254,19 +248,16 @@ const Product = () => {
                       {packageItem?.subCategoryId?.name}
                     </p>
                   </td>
-
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p className="text-black dark:text-white">
                       {formatToLocalDate(packageItem.updatedAt)}
                     </p>
                   </td>
-
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p className="text-black dark:text-white">
                       {packageItem?.status}
                     </p>
                   </td>
-
                   <td className="border-b border-[#eee] py-5 px-3 dark:border-strokedark">
                     <div className="flex items-center space-x-3.5">
                       {/* details btn */}

@@ -18,6 +18,8 @@ export const UpdateProductModal = ({
   closeModal,
   updateItem,
 }: IUpdatePackage) => {
+  console.log(updateItem);
+
   const [loading, setLoading] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [selectedSubCategory, setSelectedSubCategory] = useState<string>('');
@@ -37,10 +39,6 @@ export const UpdateProductModal = ({
       price: updateItem?.price || '0',
       brand: updateItem?.brand || 'Default Brand',
       phone: updateItem?.phone || '1234567890',
-
-      img: updateItem?.img || '',
-      img2: updateItem?.img2 || '',
-      img3: updateItem?.img3 || '',
 
       isUsed: 1,
       categoryId: updateItem?.categoryId._id || '',
@@ -67,34 +65,48 @@ export const UpdateProductModal = ({
   }, [updateItem]);
 
   // Track field changes
+  // const handleFieldChange = (field: keyof IProduct, value: any) => {
+  //   setChangedFields((prev) => ({ ...prev, [field]: value }));
+  // };
   const handleFieldChange = (field: keyof IProduct, value: any) => {
-    setChangedFields((prev) => ({ ...prev, [field]: value }));
+    setChangedFields((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
   };
 
   const onSubmit: SubmitHandler<IProduct> = async () => {
-    console.log(changedFields);
-    if (changedFields.categoryId && !changedFields.subCategoryId) {
-      Swal.fire('Warning', 'select subcategory', 'info');
-      return;
-    }
-
-    if (Object.keys(changedFields).length === 0) {
-      Swal.fire('Warning', 'No changes detected', 'info');
-      return;
-    }
+    // if (!Object.keys(changedFields).length) {
+    //   Swal.fire('Warning', 'No changes detected', 'info');
+    //   return;
+    // }
 
     setLoading(true);
+
     const formData = new FormData();
+
     Object.entries(changedFields).forEach(([key, value]) => {
       if (key === 'img' || key === 'img2' || key === 'img3') {
-        formData.append(key, (value as FileList)[0]);
+        if (value) {
+          formData.append(key, value as File);
+        }
       } else {
         formData.append(key, value as string);
       }
     });
 
     try {
-      await axiosInstance.patch(`/products/${updateItem._id}`, formData);
+      const res = await axiosInstance.patch(
+        `/products/${updateItem._id}`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        },
+      );
+      console.log(res);
+
       fetchData();
       closeModal();
       Swal.fire('Success', 'product updated', 'success');
@@ -104,6 +116,7 @@ export const UpdateProductModal = ({
       setLoading(false);
     }
   };
+
   const options = [
     { value: 'N/A', label: 'N/A' },
     { value: 'Used', label: 'Used' },
@@ -210,15 +223,33 @@ export const UpdateProductModal = ({
 
               <InputField
                 type="file"
-                label="img"
+                label="Image 1"
                 name="img"
                 register={register}
-                required
-                onChange={(e: { target: { value: any } }) =>
-                  handleFieldChange('img', e.target.value)
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  handleFieldChange('img', e.target.files?.[0])
                 }
               />
 
+              <InputField
+                type="file"
+                label="Image 2"
+                name="img2"
+                register={register}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  handleFieldChange('img2', e.target.files?.[0])
+                }
+              />
+
+              <InputField
+                type="file"
+                label="Image 3"
+                name="img3"
+                register={register}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  handleFieldChange('img3', e.target.files?.[0])
+                }
+              />
               <select
                 {...register('categoryId', {
                   onChange: (e) => {
@@ -282,7 +313,7 @@ export const UpdateProductModal = ({
                   handleFieldChange('status', value.value)
                 }
               />
-              <div className="flex justify-center gap-4">
+              <div className="flex  mt-7 justify-center gap-4">
                 {loading ? (
                   <PuffLoader className="mx-auto" color="#36d7b7" size={40} />
                 ) : (
