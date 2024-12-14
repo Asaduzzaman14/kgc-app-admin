@@ -30,7 +30,11 @@ export const UpdateBSCatagoryModal = ({
 
   const onSubmit: SubmitHandler<ICatagory> = async (event: ICatagory) => {
     setLoading(true);
+
+    event.serialNo = Number(event.serialNo);
     const obj = { ...event };
+
+    console.log(obj);
 
     const img = obj['icon'];
 
@@ -154,7 +158,6 @@ export const UpdateBSCatagoryModal = ({
                 label="Image/icon"
                 name="icon"
                 register={register}
-                required
               />
               <div>
                 <p>Serial No</p>
@@ -167,7 +170,7 @@ export const UpdateBSCatagoryModal = ({
                 />
               </div>
 
-              <div className="w-full">
+              {/* <div className="w-full">
                 <label
                   className="mb-2 block text-sm font-medium text-black dark:text-white"
                   htmlFor="type"
@@ -193,7 +196,7 @@ export const UpdateBSCatagoryModal = ({
                     </option>
                   ))}
                 </select>
-              </div>
+              </div> */}
 
               <div className="flex justify-center gap-4">
                 <div>
