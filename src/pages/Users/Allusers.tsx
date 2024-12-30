@@ -29,7 +29,7 @@ const Allusers = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        'https://api.khagrachariplus.com/api/v1/users/all-donnor',
+        'http://localhost:5000/api/v1/users/all-donnor',
       );
 
       if (response?.data?.success) {
@@ -59,7 +59,7 @@ const Allusers = () => {
       if (result.isConfirmed) {
         try {
           const response = await axios.delete(
-            `https://api.khagrachariplus.com/api/v1/users/${id}`,
+            `http://localhost:5000/api/v1/users/${id}`,
             {
               headers: {
                 Authorization: token,
@@ -126,6 +126,12 @@ const Allusers = () => {
                   Name
                 </th>
                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
+                  sponsor
+                </th>
+                <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
+                  Reffer code
+                </th>
+                <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
                   image
                 </th>
                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
@@ -162,6 +168,16 @@ const Allusers = () => {
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p className="text-black dark:text-white">
                       {packageItem?.name}
+                    </p>
+                  </td>
+                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                    <p className="text-black dark:text-white">
+                      {packageItem?.sponsor}
+                    </p>
+                  </td>
+                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                    <p className="text-black dark:text-white">
+                      {packageItem?.myRefferCode}
                     </p>
                   </td>
 

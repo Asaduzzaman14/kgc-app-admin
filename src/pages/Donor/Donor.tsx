@@ -29,7 +29,7 @@ const Donor = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        'https://api.khagrachariplus.com/api/v1/users/all-donnor?isDonor=true',
+        'http://localhost:5000/api/v1/users/all-donnor?isDonor=true',
       );
 
       setLoading(false);

@@ -12,7 +12,7 @@ const MyTeam = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          ' https://api.khagrachariplus.com/api/v1/services-catagory',
+          ' http://localhost:5000/api/v1/services-catagory',
           {
             headers: {
               Authorization: ` `,

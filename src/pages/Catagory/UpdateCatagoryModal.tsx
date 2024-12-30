@@ -39,7 +39,7 @@ export const UpdateCatagoryModal = ({
       const token = getKgcAdminToken();
 
       const response = await fetch(
-        `https://api.khagrachariplus.com/api/v1/services-catagory/${updateItem._id}`,
+        `http://localhost:5000/api/v1/services-catagory/${updateItem._id}`,
         {
           method: 'PATCH',
           headers: {

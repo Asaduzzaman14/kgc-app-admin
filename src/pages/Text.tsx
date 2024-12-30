@@ -36,7 +36,7 @@ const ScrollText = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          ' https://api.khagrachariplus.com/api/v1/scroll-text/all',
+          ' http://localhost:5000/api/v1/scroll-text/all',
           {
             headers: {
               Authorization: `${token}`,
@@ -69,7 +69,7 @@ const ScrollText = () => {
 
     try {
       const response = await fetch(
-        `https://api.khagrachariplus.com/api/v1/scroll-text/${notice[0]._id}`,
+        `http://localhost:5000/api/v1/scroll-text/${notice[0]._id}`,
         {
           method: 'PATCH',
           headers: {

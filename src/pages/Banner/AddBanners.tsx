@@ -18,17 +18,14 @@ const AddBanners = ({ fetchData, closeModal, updateItem }: any) => {
   const onSubmit: SubmitHandler<Ibanner> = async (data: Ibanner) => {
     try {
       const token = getKgcAdminToken();
-      const response = await fetch(
-        'https://api.khagrachariplus.com/api/v1/banner',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `${token}`,
-          },
-          body: JSON.stringify(data),
+      const response = await fetch('http://localhost:5000/api/v1/banner', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `${token}`,
         },
-      );
+        body: JSON.stringify(data),
+      });
       console.log(response);
       if (!response.ok) {
         throw new Error('Network response was not ok');
