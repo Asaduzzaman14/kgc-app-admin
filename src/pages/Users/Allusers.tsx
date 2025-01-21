@@ -2,51 +2,60 @@ import { useEffect, useState } from 'react';
 import DefaultLayout from '../../layout/DefaultLayout';
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
 import axios from 'axios';
-import { getKgcAdminToken } from '../../hooks/handelAdminToken';
-import { ICatagory } from '../../types/packages';
 import Swal from 'sweetalert2';
 import { formatToLocalDate } from '../../hooks/formatDate';
+import axiosInstance from '../../utils/axiosConfig';
+import SearchInput from '../../components/SearchInput';
+import Button from '../../Ui/Button';
+import PaginationButtons from '../../components/PaginationButtons';
+import PerPageData from '../../components/PerPageData';
+import Loader from '../../common/Loader';
+import { getKgcAdminToken } from '../../hooks/handelAdminToken';
 
 const Allusers = () => {
   const [datas, setDatas] = useState<any>([]);
   const [loading, setLoading] = useState<any>(false);
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [addCatagoryModal, setAddCatagoryModal] = useState(false);
-  const [updateItem, setUpdateItem] = useState<any>();
-
-  const openModal = (data: ICatagory) => {
-    setUpdateItem(data);
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
   const token = getKgcAdminToken();
+  const [meta, setMeta] = useState<any>({
+    total: 1,
+    page: 1,
+    limit: 1,
+  });
+  // searching
+  const [search, setSearch] = useState('');
+
+  // pagination calculate
+  const [currentPage, setCurrentPage] = useState(0);
+  const [perPage, setparePage] = useState(20);
 
   const fetchData = async () => {
-    try {
-      const response = await axios.get(
-        'http://localhost:5000/api/v1/users/all-donnor',
-      );
+    setLoading(true);
 
-      if (response?.data?.success) {
-        setDatas(response?.data?.data);
-      }
+    try {
+      const response = await axiosInstance.get(
+        `/users/all-user?page=${
+          currentPage + 1
+        }&limit=${perPage}&searchTerm=${search}`,
+      );
+      setDatas(response?.data?.data.data);
+      setMeta(response?.data?.data?.meta);
+
+      setLoading(false);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
-
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [currentPage]);
+
+  const searchData = () => {
+    setCurrentPage(0);
+    fetchData();
+    // setSearch('');
+  };
 
   const deleteItems = async (id: string) => {
-    console.log(id);
-
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -94,7 +103,6 @@ const Allusers = () => {
       }
     });
   };
-  console.log(datas);
 
   return (
     <DefaultLayout>
@@ -109,6 +117,19 @@ const Allusers = () => {
           Donors
         </button>
       </div> */}
+      <div className="flex gap-5">
+        <div className="max-w-full flex w-100 mb-4 relative">
+          <SearchInput
+            placeholder="Search..."
+            search={search}
+            setSearch={setSearch}
+          />
+          <div onClick={() => searchData()}>
+            <Button btnName="Search"></Button>
+          </div>
+        </div>
+        <PerPageData perPage={perPage} setparePage={setparePage} />
+      </div>
       <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
         <div className="max-w-full overflow-x-auto">
           <table className="w-full table-auto">
@@ -151,7 +172,8 @@ const Allusers = () => {
               </tr>
             </thead>
             <tbody>
-              {datas?.data?.map((packageItem: any, key: any) => (
+              {loading && <Loader />}
+              {datas?.map((packageItem: any, key: any) => (
                 <tr key={key}>
                   <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
                     <h5 className="font-medium text-black dark:text-white">
@@ -262,7 +284,7 @@ const Allusers = () => {
                       {/* edit btn */}
 
                       <button
-                        onClick={() => openModal(packageItem)}
+                        // onClick={() => openModal(packageItem)}
                         className="hover:text-primary"
                       >
                         <svg
@@ -291,25 +313,14 @@ const Allusers = () => {
           </table>
         </div>
       </div>
-      {/* <div>
-        {isModalOpen && (
-          <UpdateCatagoryModal
-            closeModal={closeModal}
-            updateItem={updateItem}
-            fetchData={fetchData}
-          />
-        )}
-      </div> */}
-      {/* 
-      <div>
-        {addCatagoryModal && (
-          <UpdateCatagoryModal
-            closeModal={closeModal}
-            updateItem={updateItem}
-            fetchData={fetchData}
-          />
-        )}
-      </div> */}
+
+      <div className="my-4">
+        <PaginationButtons
+          totalPages={Math?.ceil(meta?.total / perPage)}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+      </div>
     </DefaultLayout>
   );
 };
