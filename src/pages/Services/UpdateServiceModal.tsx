@@ -56,7 +56,7 @@ export const UpdateServiceModal = ({
 
     try {
       const response = await axios.get(
-        'http://localhost:5000/api/v1/services-catagory',
+        'https://api.khagrachariplus.com/api/v1/services-catagory',
         {
           headers: {
             Authorization: `${token}`,
@@ -97,7 +97,7 @@ export const UpdateServiceModal = ({
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/v1/services/${updateItem?._id}`,
+        `https://api.khagrachariplus.com/api/v1/services/${updateItem?._id}`,
         {
           method: 'PATCH',
           headers: {

@@ -41,10 +41,13 @@ const BizTokenDashboard: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchData('http://localhost:5000/api/v1/services-catagory', setDatas);
-    fetchData('http://localhost:5000/api/v1/services', setServices);
     fetchData(
-      'http://localhost:5000/api/v1/users/all-donnor?isDonor=true',
+      'https://api.khagrachariplus.com/api/v1/services-catagory',
+      setDatas,
+    );
+    fetchData('https://api.khagrachariplus.com/api/v1/services', setServices);
+    fetchData(
+      'https://api.khagrachariplus.com/api/v1/users/all-donnor?isDonor=true',
       setUsers,
     );
   }, []);

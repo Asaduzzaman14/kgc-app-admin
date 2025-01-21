@@ -38,7 +38,7 @@ const Setting = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          ' http://localhost:5000/api/v1/notice/allnotice',
+          ' https://api.khagrachariplus.com/api/v1/notice/allnotice',
           {
             headers: {
               Authorization: `${token}`,
@@ -71,7 +71,7 @@ const Setting = () => {
 
     try {
       const response = await fetch(
-        ` http://localhost:5000/api/v1/notice/${notice[0]._id}`,
+        ` https://api.khagrachariplus.com/api/v1/notice/${notice[0]._id}`,
         {
           method: 'PATCH',
           headers: {

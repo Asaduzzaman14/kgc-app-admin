@@ -39,7 +39,7 @@ const Catagory = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        'http://localhost:5000/api/v1/services-catagory',
+        'https://api.khagrachariplus.com/api/v1/services-catagory',
         {
           headers: {
             Authorization: `${token}`,
@@ -74,7 +74,7 @@ const Catagory = () => {
         try {
           setDeleteLoading(true);
           const response = await axios.delete(
-            `http://localhost:5000/api/v1/services-catagory/${id}`,
+            `https://api.khagrachariplus.com/api/v1/services-catagory/${id}`,
             {
               headers: {
                 Authorization: token,

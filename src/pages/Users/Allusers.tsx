@@ -68,7 +68,7 @@ const Allusers = () => {
       if (result.isConfirmed) {
         try {
           const response = await axios.delete(
-            `http://localhost:5000/api/v1/users/${id}`,
+            `https://api.khagrachariplus.com/api/v1/users/${id}`,
             {
               headers: {
                 Authorization: token,

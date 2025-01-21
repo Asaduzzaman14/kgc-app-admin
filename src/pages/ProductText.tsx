@@ -37,7 +37,7 @@ const ProductText = () => {
     const fetchData = async () => {
       try {
         const response = await axiosInstance.get(
-          ' http://localhost:5000/api/v1/scroll-text/all',
+          ' https://api.khagrachariplus.com/api/v1/scroll-text/all',
         );
 
         const data = response?.data?.data;
@@ -64,7 +64,7 @@ const ProductText = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/v1/scroll-text/${notice[0]._id}`,
+        `https://api.khagrachariplus.com/api/v1/scroll-text/${notice[0]._id}`,
         {
           method: 'PATCH',
           headers: {
