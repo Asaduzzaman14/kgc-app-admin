@@ -11,10 +11,16 @@ import PaginationButtons from '../../components/PaginationButtons';
 import PerPageData from '../../components/PerPageData';
 import Loader from '../../common/Loader';
 import { getKgcAdminToken } from '../../hooks/handelAdminToken';
+import { UpdateUserModal } from './UpdateUserModal';
 
 const Allusers = () => {
   const [datas, setDatas] = useState<any>([]);
+
   const [loading, setLoading] = useState<any>(false);
+  const [isOpenUpdateModal, setIsOpenUpdateModal] = useState<any>(false);
+
+  const [updatedData, setUpdatedData] = useState<any>(null);
+
   const token = getKgcAdminToken();
   const [meta, setMeta] = useState<any>({
     total: 1,
@@ -147,6 +153,10 @@ const Allusers = () => {
                   Name
                 </th>
                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
+                  point
+                </th>
+
+                <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
                   sponsor
                 </th>
                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
@@ -192,6 +202,12 @@ const Allusers = () => {
                       {packageItem?.name}
                     </p>
                   </td>
+
+                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                    <p className="text-black dark:text-white">
+                      {packageItem?.balance}
+                    </p>
+                  </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p className="text-black dark:text-white">
                       {packageItem?.sponsor}
@@ -203,7 +219,7 @@ const Allusers = () => {
                     </p>
                   </td>
 
-                  <td className="border-b w-40 h-40 border-[#eee] py-5 px-4 dark:border-strokedark">
+                  <td className="border-b w-54 h-54 border-[#eee] py-5 px-4 dark:border-strokedark">
                     <img src={packageItem?.image} alt="" />
                   </td>
 
@@ -284,7 +300,10 @@ const Allusers = () => {
                       {/* edit btn */}
 
                       <button
-                        // onClick={() => openModal(packageItem)}
+                        onClick={() => {
+                          setUpdatedData(packageItem),
+                            setIsOpenUpdateModal(true);
+                        }}
                         className="hover:text-primary"
                       >
                         <svg
@@ -321,6 +340,13 @@ const Allusers = () => {
           setCurrentPage={setCurrentPage}
         />
       </div>
+      {isOpenUpdateModal && updatedData && (
+        <UpdateUserModal
+          updatedData={updatedData}
+          setIsOpenUpdateModal={setIsOpenUpdateModal}
+          fetchData={fetchData}
+        />
+      )}
     </DefaultLayout>
   );
 };
