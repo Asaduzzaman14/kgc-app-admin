@@ -36,7 +36,7 @@ export const UpdateUserModal = ({
 
     try {
       const res = await axiosInstance.patch(
-        '/users/update-user-data/${updatedData._id}',
+        `/users/update-user-data/${updatedData._id}`,
         newData,
       );
 
