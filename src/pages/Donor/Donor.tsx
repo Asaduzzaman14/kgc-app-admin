@@ -5,6 +5,7 @@ import axios from 'axios';
 import { getKgcAdminToken } from '../../hooks/handelAdminToken';
 import { ICatagory } from '../../types/packages';
 import { PuffLoader } from 'react-spinners';
+import PaginationButtons from '../../components/PaginationButtons';
 
 const Donor = () => {
   const [datas, setDatas] = useState<any>([]);
@@ -22,20 +23,32 @@ const Donor = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+  const [meta, setMeta] = useState<any>({
+    total: 1,
+    page: 1,
+    limit: 1,
+  });
+  // searching
+  const [search, setSearch] = useState('');
 
-  const token = getKgcAdminToken();
+  // pagination calculate
+  const [currentPage, setCurrentPage] = useState(0);
+  const [perPage, setparePage] = useState(100);
 
   const fetchData = async () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        'https://api.khagrachariplus.com/api/v1/users/all-donnor?isDonor=true',
+        `https://api.khagrachariplus.com/api/v1/users/all-donnor?isDonor=true&page=${
+          currentPage + 1
+        }&limit=${perPage} `,
       );
 
       setLoading(false);
 
       if (response?.data?.success) {
         setDatas(response?.data?.data);
+        setMeta(response?.data?.data?.meta);
       }
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -44,7 +57,7 @@ const Donor = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [currentPage]);
   console.log(datas);
 
   return (
@@ -234,6 +247,13 @@ const Donor = () => {
           />
         )}
       </div> */}
+      <div className="my-4">
+        <PaginationButtons
+          totalPages={Math?.ceil(meta?.total / perPage)}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+      </div>
     </DefaultLayout>
   );
 };
